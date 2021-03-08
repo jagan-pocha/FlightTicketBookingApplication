@@ -41,7 +41,7 @@ public class MainController {
        Users user1=usersService.validateUser(user);
 		if(user1!=null)
 		{
-		return new ResponseEntity<String>("Welcome "+user1.getUserType()+" :"+user1.getUserName()+" Thank you for loggingIn .",HttpStatus.OK);
+		return new ResponseEntity<String>("Welcome "+user1.getUserType()+" : "+user1.getUserName()+" Thank you for loggingIn .",HttpStatus.OK);
 		}
 		else
 		{

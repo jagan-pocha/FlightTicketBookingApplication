@@ -1,4 +1,4 @@
-package com.capg.ftb.in;
+package com.capg.ftb;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
