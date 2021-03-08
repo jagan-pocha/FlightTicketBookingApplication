@@ -1,4 +1,4 @@
-package com.capg.ftb.in;
+package com.capg.ftb;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
