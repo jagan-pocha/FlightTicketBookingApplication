@@ -22,7 +22,6 @@ public class Airport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID")
 	private String airportCode;
 
 	public Airport(String airportName, String airportLocation, String airportCode) {

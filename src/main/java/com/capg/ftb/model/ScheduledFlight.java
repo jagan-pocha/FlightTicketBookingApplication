@@ -1,113 +1,98 @@
-//package com.capg.ftb.model;
-//import javax.persistence.Entity;
-//import javax.persistence.FetchType;
-//import javax.persistence.JoinColumn;
-//import javax.persistence.OneToOne;
-////import javax.persistence.Id;
-//import javax.persistence.Table;
-//import javax.persistence.CascadeType;
-//import javax.persistence.Column;
-//
-//@Entity
-//@Table
-//public class ScheduledFlight {
-//	
-//	
-//	@Column(name="Flight Id")
-//	private int flightId;
-//	
-//	@Column(name="Schedule Flight State")
-//	private String scheduleFlightState;
-////
-////	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-////	@JoinColumn(name="flight_fk")
-////	private Flight flight;  // instance of Flight class in ScheduledFlight class
-//	
-//	@Column(name="Available Seats")
-//	private int availableSeats;
-//	
-//	
-//	
-//	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-//	@JoinColumn(name="schedule_fk")
-//	private Schedule schedule;
-//	
-//	// Default Constructor
-//	public ScheduledFlight() {
-//		super();
-//	}
-//	
-//	// Parametric Constructor
-//	public ScheduledFlight(int flightId, String scheduleFlightState,  int availableSeats,
-//			Schedule schedule) {
-//		super();
-//		this.flightId = flightId;
-//		this.scheduleFlightState = scheduleFlightState;
-//		//this.flight = flight;
-//		this.availableSeats = availableSeats;
-//		this.schedule = schedule;
-//	}
-//	
-//	
-//	public int getFlightId() {
-//		return flightId;
-//	}
-//
-//
-//
-//	public void setFlightId(int flightId) {
-//		this.flightId = flightId;
-//	}
-//
-//
-//
-//	public String getScheduleFlightState() {
-//		return scheduleFlightState;
-//	}
-//
-//
-//
-//	public void setScheduleFlightState(String scheduleFlightState) {
-//		this.scheduleFlightState = scheduleFlightState;
-//	}
-//
-//
-//
-////	public Flight getFlight() {
-////		return flight;
-////	}
-////
-////
-////
-////	public void setFlight(Flight flight) {
-////		this.flight = flight;
-////	}
-//
-//
-//
-//	public int getAvailableSeats() {
-//		return availableSeats;
-//	}
-//
-//
-//
-//	public void setAvailableSeats(int availableSeats) {
-//		this.availableSeats = availableSeats;
-//	}
-//
-//
-//
-//	public Schedule getSchedule() {
-//		return schedule;
-//	}
-//
-//
-//
-//	public void setSchedule(Schedule schedule) {
-//		this.schedule = schedule;
-//	}
-//
-//
-//	
-//	
-//}
+package com.capg.ftb.model;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+//import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.sun.istack.NotNull;
+
+import java.math.BigInteger;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+
+@Entity
+public class ScheduledFlight {
+
+	@Id
+	@Column(name = "schedule_flight_id")
+	private BigInteger scheduleFlightId;
+
+	@OneToOne(fetch = FetchType.EAGER)
+	@NotNull
+	private Flight flight;
+
+	@Column(name = "available_seats")
+	@NotNull
+	private Integer availableSeats;
+
+	@NotNull
+	@OneToOne(cascade = CascadeType.ALL)
+	private Schedule schedule;
+
+	/*
+	 * Default constructor
+	 */
+	public ScheduledFlight() {
+
+	}
+
+	/*
+	 * Parameterized constructor
+	 */
+	public ScheduledFlight(BigInteger scheduleFlightId, Flight flight, Integer availableSeats,
+			Schedule schedule) {
+		super();
+		this.scheduleFlightId = scheduleFlightId;
+		this.flight = flight;
+		this.availableSeats = availableSeats;
+		this.schedule = schedule;
+	}
+
+	/*
+	 * Getter and setter for ID
+	 */
+	public BigInteger getScheduleFlightId() {
+		return scheduleFlightId;
+	}
+
+	public void setScheduleFlightId(BigInteger scheduleFlightId) {
+		this.scheduleFlightId = scheduleFlightId;
+	}
+
+	/*
+	 * Getter and setter for Available seats
+	 */
+	public int getAvailableSeats() {
+		return availableSeats;
+	}
+
+	public void setAvailableSeats(int availableSeats) {
+		this.availableSeats = availableSeats;
+	}
+
+	/*
+	 * Getter and setter for Flight object
+	 */
+	public Flight getFlight() {
+		return flight;
+	}
+
+	public void setFlight(Flight flight) {
+		this.flight = flight;
+	}
+
+	/*
+	 * Getter and setter for Schedule object
+	 */
+	public Schedule getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(Schedule schedule) {
+		this.schedule = schedule;
+	}
+}
