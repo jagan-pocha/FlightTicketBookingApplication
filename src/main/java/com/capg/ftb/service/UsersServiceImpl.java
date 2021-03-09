@@ -11,7 +11,7 @@ import com.capg.ftb.model.Users;
 
 
 @Service
-public class IUsersServiceImpl implements IUsersService{
+public class UsersServiceImpl implements IUsersService{
 
 	@Autowired
 	private UsersDAO usersDao;
@@ -28,8 +28,7 @@ public class IUsersServiceImpl implements IUsersService{
 		{
 			Users user2=usersDao.save(user);
 			return user2;
-		}
-		
+		}	
 	}
 	
 	
@@ -76,7 +75,6 @@ public class IUsersServiceImpl implements IUsersService{
 
 	@Override
 	public Users getByName(String userName) {
-
 		
 		Users user1=usersDao.findByUserName(userName);
 		return user1;

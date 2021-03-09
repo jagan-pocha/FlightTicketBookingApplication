@@ -13,7 +13,7 @@ import com.capg.ftb.exception.FlightNotFoundException;
 import com.capg.ftb.model.Flight;
 
 @Service
-public class IFlightServiceImpl implements IFlightService{
+public class FlightServiceImpl implements IFlightService{
 
 	@Autowired
 	private FlightDAO flightDao;
@@ -21,6 +21,7 @@ public class IFlightServiceImpl implements IFlightService{
 	@Override
 	public Flight addFlight(Flight flight) {
 		// TODO Auto-generated method stub
+		
 		Flight flight1=flightDao.save(flight);
 		return flight1;
 	}
@@ -41,13 +42,14 @@ public class IFlightServiceImpl implements IFlightService{
 	}
 
 	@Override
-	public Flight removeFlight(BigInteger flightNumber) {
-		// TODO Auto-generated method stub
+	public Flight removeFlight(BigInteger flightNumber) 
+	{
+		
 		Optional<Flight> optional=flightDao.findById(flightNumber);
 		Flight flight=optional.orElseThrow(()->new FlightNotFoundException("Flight Not Existed with the id : "+flightNumber));
 		flightDao.deleteById(flightNumber);
 		return flight;
-				
+		
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Booking")
 public class Booking {
+	
 	@Id
 	private BigInteger bookingId;
 	@OneToOne

@@ -18,7 +18,7 @@ import javax.persistence.Column;
 public class ScheduledFlight {
 
 	@Id
-	@Column(name = "schedule_flight_id")
+	@Column
 	private BigInteger scheduleFlightId;
 
 	@OneToOne(fetch = FetchType.EAGER)

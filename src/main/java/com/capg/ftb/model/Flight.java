@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 
 @Entity
 @Table(name="Flight")
@@ -17,11 +20,14 @@ public class Flight
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private BigInteger flightNumber;
 	
+	
 	@Column
     private String carrierName; 
 	
+	
 	@Column
 	private String flightModel;
+	
 	
 	@Column
 	private int seatCapacity;
@@ -32,7 +38,7 @@ public class Flight
 		super();
 	}
 	
-	public Flight(BigInteger flightNumber, String carrierName, String flightModel, Integer seatCapacity) 
+	public Flight(BigInteger flightNumber,String carrierName, String flightModel, Integer seatCapacity) 
 	{
 		super();
 		this.flightNumber = flightNumber;

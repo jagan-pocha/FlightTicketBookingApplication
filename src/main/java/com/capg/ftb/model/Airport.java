@@ -10,21 +10,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name = "Airport")
 public class Airport {
-
-	@Column(name = "AirportName")
+	
+	@Id
+	@GeneratedValue(generator = "CodeGenerator")
+	@GenericGenerator(name = "CodeGenerator",strategy = "com.capg.ftb.model.MyAirportGenerator")
+	private String airportCode;
+	
+	@Column
 	private String airportName;
 
-	@Column(name = "airport Location")
+	@Column
 	private String airportLocation;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String airportCode;
+	public Airport() {
 
-	public Airport(String airportName, String airportLocation, String airportCode) {
+	}
+
+	// Unparameterized constructor
+
+	public Airport(String airportCode,String airportName, String airportLocation) {
 		this.airportName = airportName;
 		this.airportLocation = airportLocation;
 		this.airportCode = airportCode;
@@ -32,11 +41,7 @@ public class Airport {
 
 	// Parameterized Constructor
 
-	public Airport() {
-
-	}
-
-	// Unparameterized constructor
+	
 
 	public String getAirportName() {
 		return airportName;
