@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -32,8 +31,8 @@ public class FlightServiceTests {
 	@Test
 	public void testAddFlight()
 	{
-		BigInteger bigInteger = new BigInteger ("4");
-		Flight flight=new Flight(bigInteger,"GoJet Airlines","CRJ500",60);
+	
+		Flight flight=new Flight(1,"GoJet Airlines","CRJ500",60);
 		when(flightDao.save(flight)).thenReturn(flight);
 		assertEquals(flight,flightService.addFlight(flight));
 	}
@@ -42,9 +41,8 @@ public class FlightServiceTests {
 	@Test
 	public void test2AddFlight()
 	{
-		BigInteger bigInteger = new BigInteger ("4");
 
-		Flight flight=new Flight(bigInteger,"American Airlines","AAB600",80);
+		Flight flight=new Flight(2,"American Airlines","AAB600",80);
 		when(flightDao.save(flight)).thenReturn(flight);
 		assertEquals(flight,flightService.addFlight(flight));
 	}
@@ -53,10 +51,10 @@ public class FlightServiceTests {
 	@Test
 	public void testViewFlight()
 	{
-		BigInteger bigInteger = new BigInteger ("4");
-		Flight flight=new Flight(bigInteger,"American Airlines","AAB600",80);
+
+		Flight flight=new Flight(2,"American Airlines","AAB600",80);
 		when(flightDao.save(flight)).thenReturn(flight); 
-		assertEquals(flight.getFlightModel(),flightService.viewFlight(bigInteger).getFlightModel());
+		assertEquals(flight.getFlightModel(),flightService.viewFlight(2).getFlightModel());
 		
 	}
 	
@@ -73,10 +71,9 @@ public class FlightServiceTests {
 	public void testDeleteFlight()
 	{
 
-		BigInteger bigInteger = new BigInteger ("4");
-		Flight flight=new Flight(bigInteger,"GoJet Airlines","CRJ500",60);
-		Mockito.when(flightDao.save(flight)).thenReturn(flight);
-		Flight flight1=flightService.removeFlight(bigInteger);
+		Flight flight=new Flight(2,"GoJet Airlines","CRJ500",60);
+		when(flightDao.save(flight)).thenReturn(flight);
+		Flight flight1=flightService.removeFlight(2);
 		System.out.println(flight1.getCarrierName());
 		assertEquals(flight,flight1);
 	}
@@ -85,8 +82,8 @@ public class FlightServiceTests {
 	@Test
 	public void testUpdateFlight()
 	{
-		BigInteger bigInteger = new BigInteger ("4");
-		Flight flight=new Flight(bigInteger,"GoJet Airlines","CRJ500",60);
+		
+		Flight flight=new Flight(2,"GoJet Airlines","CRJ500",60);
 		when(flightDao.save(flight)).thenReturn(flight);
 	    
 	}

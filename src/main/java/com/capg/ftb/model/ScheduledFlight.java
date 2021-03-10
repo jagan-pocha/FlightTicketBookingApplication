@@ -18,14 +18,12 @@ import javax.persistence.Column;
 public class ScheduledFlight {
 
 	@Id
+	private int scheduleFlightId;
+
 	@Column
-	private BigInteger scheduleFlightId;
+	private int flight;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	@NotNull
-	private Flight flight;
-
-	@Column(name = "available_seats")
+	@Column(name = "availableseats")
 	@NotNull
 	private Integer availableSeats;
 
@@ -43,7 +41,7 @@ public class ScheduledFlight {
 	/*
 	 * Parameterized constructor
 	 */
-	public ScheduledFlight(BigInteger scheduleFlightId, Flight flight, Integer availableSeats,
+	public ScheduledFlight(int scheduleFlightId, int flight, Integer availableSeats,
 			Schedule schedule) {
 		super();
 		this.scheduleFlightId = scheduleFlightId;
@@ -55,11 +53,11 @@ public class ScheduledFlight {
 	/*
 	 * Getter and setter for ID
 	 */
-	public BigInteger getScheduleFlightId() {
+	public int getScheduleFlightId() {
 		return scheduleFlightId;
 	}
 
-	public void setScheduleFlightId(BigInteger scheduleFlightId) {
+	public void setScheduleFlightId(int scheduleFlightId) {
 		this.scheduleFlightId = scheduleFlightId;
 	}
 
@@ -77,11 +75,11 @@ public class ScheduledFlight {
 	/*
 	 * Getter and setter for Flight object
 	 */
-	public Flight getFlight() {
+	public int getFlight() {
 		return flight;
 	}
 
-	public void setFlight(Flight flight) {
+	public void setFlight(int flight) {
 		this.flight = flight;
 	}
 

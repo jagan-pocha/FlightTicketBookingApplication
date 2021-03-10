@@ -2,6 +2,9 @@ package com.capg.ftb.controller;
 
 import java.math.BigInteger;
 import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,7 +73,7 @@ public class MainController {
 	// Flight Services
 	
 	@PostMapping(value="/addFlight")
-	public ResponseEntity<Flight> addFlight(@RequestBody Flight flight)
+	public ResponseEntity<Flight> addFlight(@RequestBody @Valid Flight flight)
 	{
 		Flight flight1=flightService.addFlight(flight);
 		return new ResponseEntity<Flight>(flight1,HttpStatus.CREATED);
@@ -78,7 +81,7 @@ public class MainController {
 	
 	
 	@GetMapping(value="/viewFlight/{flightNumber}")
-	public ResponseEntity<Flight> viewFlight(@PathVariable BigInteger flightNumber)
+	public ResponseEntity<Flight> viewFlight(@PathVariable int flightNumber)
 	{
 		Flight flight=flightService.viewFlight(flightNumber);
 		return new ResponseEntity<Flight>(flight,HttpStatus.OK);
@@ -95,14 +98,14 @@ public class MainController {
 	
 	
 	@DeleteMapping(value="/deleteFlight/{flightNumber}")
-	public ResponseEntity<Flight> deleteFlight(@PathVariable BigInteger flightNumber)
+	public ResponseEntity<Flight> deleteFlight(@PathVariable int flightNumber)
 	{
 		Flight flight=flightService.removeFlight(flightNumber);
 		return new ResponseEntity<Flight>(flight,HttpStatus.OK);
 	}
 	
 	@PutMapping(value="/updateFlight/{flightNumber}")
-	public ResponseEntity<Flight> updateFlight(@PathVariable BigInteger flightNumber,@RequestBody Flight flight)
+	public ResponseEntity<Flight> updateFlight(@PathVariable int flightNumber,@RequestBody Flight flight)
 	{
 		Flight flight1=flightService.updateFlight(flightNumber);
 		flight1.setSeatCapacity(flight.getSeatCapacity());

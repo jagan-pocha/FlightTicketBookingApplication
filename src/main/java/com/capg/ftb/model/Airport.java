@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -17,14 +18,14 @@ import org.hibernate.annotations.GenericGenerator;
 public class Airport {
 	
 	@Id
-	@GeneratedValue(generator = "CodeGenerator")
-	@GenericGenerator(name = "CodeGenerator",strategy = "com.capg.ftb.model.MyAirportGenerator")
 	private String airportCode;
 	
 	@Column
+	@NotNull
 	private String airportName;
 
 	@Column
+	@NotNull
 	private String airportLocation;
 
 	public Airport() {

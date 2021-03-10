@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class Booking {
 	
 	@Id
-	private BigInteger bookingId;
+	private int bookingId;
 	@OneToOne
 	private Users userId;
 	@Column
@@ -30,10 +30,10 @@ public class Booking {
 	@Column
 	private int noOfPassangers;
 	
-	public BigInteger getBookingId() {
+	public int getBookingId() {
 		return bookingId;
 	}
-	public void setBookingId(BigInteger bookingId) {
+	public void setBookingId(int bookingId) {
 		this.bookingId = bookingId;
 	}
 	
@@ -79,7 +79,7 @@ public class Booking {
 		this.noOfPassangers = noOfPassangers;
 	}
 	
-	public Booking(BigInteger bookingId,Users userId,LocalDate bookingDate,List <Passenger> passengerList,double ticketCost,Flight flight) {
+	public Booking(int bookingId,Users userId,LocalDate bookingDate,List <Passenger> passengerList,double ticketCost,Flight flight) {
 		super();
 		this.bookingId=bookingId;
 		this.userId=userId;

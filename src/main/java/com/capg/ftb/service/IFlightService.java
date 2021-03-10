@@ -10,12 +10,12 @@ public interface IFlightService {
 
 	public Flight addFlight(Flight flight);
 	
-	public Flight viewFlight(BigInteger flightNumber); // throws FlightNotFoundException;
+	public Flight viewFlight(int flightNumber); // throws FlightNotFoundException;
 	
 	public List<Flight> viewAllFlights();
 	
-	public Flight removeFlight(BigInteger flightNumber);
+	public Flight removeFlight(int flightNumber);
 	
-	public Flight updateFlight(BigInteger flightNumber);
+	public Flight updateFlight(int flightNumber);
 	
 }

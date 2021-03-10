@@ -4,12 +4,19 @@
 package com.capg.ftb.model;
 
 import java.math.BigInteger;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 
 @Entity
 @Table
@@ -19,17 +26,31 @@ public class Schedule {
 	@Column(name = "schedule_Id")
 	private BigInteger scheduleId;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	private Airport srcAirport;
+	@Column
+	private String srcAirport;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	private Airport dstnAirport;
+	@Column
+	private String dstnAirport;
 
 	@Column(name = "departure_date")
-	private String deptDateTime;
+	@NotNull(message="Required Filed")
+	@Pattern(regexp="[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]",message="Format mm/dd/yyyy")
+	private String deptDate;
 
 	@Column(name = "arrival_date")
-	private String arrDateTime;
+	@NotNull(message="Required Filed")
+	@Pattern(regexp="[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]",message="Format mm/dd/yyyy")
+	private String arrDate;
+	
+	@Column(name = "arrival_time")
+	@NotNull(message="Required Filed")
+	@Pattern(regexp="[0-9][0-9]:[0-9][0-9]",message="Format 00:00")
+	private String arrTime;
+	
+	@Column(name = "departure_time")
+	@NotNull(message="Required Filed")
+	@Pattern(regexp="[0-9][0-9]:[0-9][0-9]",message="Format 00:00")
+	private String deptTime;
 
 	/*
 	 * Default constructor
@@ -42,14 +63,32 @@ public class Schedule {
 	 * Parameterized constructor
 	 */
 	
-	public Schedule(BigInteger scheduleId, Airport srcAirport, Airport dstnAirport,
-			String deptDateTime, String arrDateTime) {
+	public Schedule(BigInteger scheduleId, String srcAirport, String dstnAirport,
+			String deptDate, String arrDate,String arrTime,String deptTime) {
 		super();
 		this.scheduleId = scheduleId;
 		this.srcAirport = srcAirport;
 		this.dstnAirport = dstnAirport;
-		this.deptDateTime = deptDateTime;
-		this.arrDateTime = arrDateTime;
+		this.deptDate = deptDate;
+		this.arrDate= arrDate;
+		this.arrTime=arrTime;
+		this.deptTime=deptTime;
+	}
+
+	public String getArrTime() {
+		return arrTime;
+	}
+
+	public void setArrTime(String arrTime) {
+		this.arrTime = arrTime;
+	}
+
+	public String getDeptTime() {
+		return deptTime;
+	}
+
+	public void setDeptTime(String deptTime) {
+		this.deptTime = deptTime;
 	}
 
 	/*
@@ -63,35 +102,35 @@ public class Schedule {
 		this.scheduleId = scheduleId;
 	}
 
-	public Airport getSrcAirport() {
+	public String getSrcAirport() {
 		return srcAirport;
 	}
 
-	public void setSrcAirport(Airport srcAirport) {
+	public void setSrcAirport(String srcAirport) {
 		this.srcAirport = srcAirport;
 	}
 
-	public Airport getDstnAirport() {
+	public String getDstnAirport() {
 		return dstnAirport;
 	}
 
-	public void setDstnAirport(Airport dstnAirport) {
+	public void setDstnAirport(String dstnAirport) {
 		this.dstnAirport = dstnAirport;
 	}
 
-	public String getDeptDateTime() {
-		return deptDateTime;
+	public String getDeptDate() {
+		return deptDate;
 	}
 
-	public void setDeptDateTime(String deptDateTime) {
-		this.deptDateTime = deptDateTime;
+	public void setDeptDate(String deptDate) {
+		this.deptDate = deptDate;
 	}
 
-	public String getArrDateTime() {
-		return arrDateTime;
+	public String getArrDate() {
+		return arrDate;
 	}
 
-	public void setArrDateTime(String arrDateTime) {
-		this.arrDateTime = arrDateTime;
+	public void setArrDate(String arrDate) {
+		this.arrDate = arrDate;
 	}
 }

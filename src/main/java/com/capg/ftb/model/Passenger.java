@@ -10,7 +10,7 @@ public class Passenger {
 	@Id
 	@GeneratedValue
 	@Column(name = "pnrNumber")
-	private BigInteger pnrNumber;
+	private int pnrNumber;
 
 	@Column(name = "passengerName")
 	private String passengerName;
@@ -24,11 +24,11 @@ public class Passenger {
 	@Column(name = "Luggage")
 	private Double Luggage;
 
-	public BigInteger getpnrNumber() {
+	public int getpnrNumber() {
 		return pnrNumber;
 	}
 
-	public void setpnrNumber(BigInteger pnrNumber) {
+	public void setpnrNumber(int pnrNumber) {
 		this.pnrNumber = pnrNumber;
 	}
 
@@ -68,7 +68,7 @@ public class Passenger {
 		super();
 	}
 	
-	public Passenger(BigInteger pnrNumber, String passengerName,int passengerAge, BigInteger passengerUIN, Double Luggage) {
+	public Passenger(int pnrNumber, String passengerName,int passengerAge, BigInteger passengerUIN, Double Luggage) {
 		super();
 		this.pnrNumber = pnrNumber;
 		this.passengerName = passengerName;
