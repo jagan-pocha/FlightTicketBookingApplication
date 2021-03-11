@@ -15,6 +15,7 @@ import com.capg.ftb.dao.FlightDAO;
 import com.capg.ftb.dao.ScheduleFlightDAO;
 import com.capg.ftb.exception.AirportNotFoundException;
 import com.capg.ftb.exception.FlightNotFoundException;
+import com.capg.ftb.exception.SeatsNotAvailableException;
 import com.capg.ftb.model.Airport;
 import com.capg.ftb.model.Flight;
 import com.capg.ftb.model.ScheduledFlight;
@@ -37,6 +38,7 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		
 		
 		Optional<Airport> optional=airportDao.findById(scheduledFlight.getSchedule().getSrcAirport());
+		//System.out.println(scheduledFlight.getSchedule().getSrcAirport());
 		Airport airport=optional.orElseThrow(() ->new AirportNotFoundException("Source Airport Not Existed with the Code: "+scheduledFlight.getSchedule().getSrcAirport()));
 		
 		Optional<Airport> optional1=airportDao.findById(scheduledFlight.getSchedule().getDstnAirport());
@@ -46,6 +48,13 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		Optional<Flight> optional2=flightDao.findById(scheduledFlight.getFlight());
 		Flight flight=optional2.orElseThrow(()->new FlightNotFoundException("Flight Not Existed with the Id : "+scheduledFlight.getFlight()));
 
+		
+		if(flight.getSeatCapacity()<scheduledFlight.getAvailableSeats())
+		{
+			throw new SeatsNotAvailableException("Available seats are mmore than the flight seating capacity");
+		}
+		else
+		{
 		List<ScheduledFlight> list=scheduleFilghtDao.findAll();
 		int flag=1;
 		for(int i=0;i<list.size();i++)
@@ -77,13 +86,14 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		
 		return scheduledFlight1;
 		}
+		}
 	}
 	
 	
 	
 	public boolean isItScheduled(String str,String str1)
 	{
-		SimpleDateFormat df=new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat df=new SimpleDateFormat("MM-dd-yyyy");
 		Date date1=null;
 		try {
 			date1 = df.parse(str);
@@ -154,7 +164,7 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 
 
 	@Override
-	public List<ScheduledFlight> searchScheduledFlight(String srcAirport, String destAirport) {
+	public List<ScheduledFlight> searchScheduledFlight(String srcAirport, String destAirport,String deptDate) {
 		// TODO Auto-generated method stub
 		List<ScheduledFlight> list=scheduleFilghtDao.findAll();
 		List<ScheduledFlight> list1=new ArrayList<ScheduledFlight>();
@@ -162,7 +172,7 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		{
 			ScheduledFlight sFlight=list.get(i);
 			System.out.println(sFlight.getSchedule().getSrcAirport()+" \n"+sFlight.getSchedule().getDstnAirport()+" "+sFlight.getSchedule().getDeptDate());
-			if(sFlight.getSchedule().getSrcAirport().equals(srcAirport) && sFlight.getSchedule().getDstnAirport().equals(destAirport))
+			if(sFlight.getSchedule().getSrcAirport().equals(srcAirport) && sFlight.getSchedule().getDstnAirport().equals(destAirport) && sFlight.getSchedule().getDeptDate().equals(deptDate))
 			{
 				list1.add(sFlight);
 			}
@@ -170,9 +180,6 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		return list1;
 	}
 	
-	
-	
-
-	
+		
 	
 }

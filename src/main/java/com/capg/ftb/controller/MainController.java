@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import com.capg.ftb.service.IUsersService;
 
 @RestController
 @RequestMapping(value="/ftb")
+@Validated
 public class MainController {
 
 	@Autowired
@@ -37,7 +39,7 @@ public class MainController {
 	//User Services
 	
 	@PostMapping(value="/addUser")
-	public ResponseEntity<String> addUser(@RequestBody Users user)
+	public ResponseEntity<String> addUser(@Valid @RequestBody Users user)
 	{
 		Users user1=usersService.addUser(user);
 		if(user1!=null)
@@ -53,7 +55,7 @@ public class MainController {
 	
 	
 	@GetMapping(value="/login")
-	public ResponseEntity<String> validateUser(@RequestBody Users user)
+	public ResponseEntity<String> validateUser(@Valid @RequestBody Users user)
 	{
 	 
        Users user1=usersService.validateUser(user);
@@ -73,7 +75,7 @@ public class MainController {
 	// Flight Services
 	
 	@PostMapping(value="/addFlight")
-	public ResponseEntity<Flight> addFlight(@RequestBody @Valid Flight flight)
+	public ResponseEntity<Flight> addFlight(@Valid @RequestBody Flight flight)
 	{
 		Flight flight1=flightService.addFlight(flight);
 		return new ResponseEntity<Flight>(flight1,HttpStatus.CREATED);

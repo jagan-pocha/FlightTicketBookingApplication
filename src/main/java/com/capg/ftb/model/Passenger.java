@@ -1,6 +1,11 @@
 package com.capg.ftb.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import java.math.BigInteger;
 
 @Entity
@@ -13,12 +18,18 @@ public class Passenger {
 	private int pnrNumber;
 
 	@Column(name = "passengerName")
+	@Size(min=3,message="Name must be atleast 3 letters")
+	@NotNull(message="code cannot be bull")
 	private String passengerName;
 
 	@Column(name = "passengerAge")
+	@NotNull(message="Age cannot be bull")
 	private int passengerAge;
 
 	@Column(name = "passengerUIN")
+	@Min(value=12,message="must be only 12 letters")
+	@Max(value=12,message="must be only 12 letters")
+	@NotNull(message="code cannot be bull")
 	private BigInteger passengerUIN;
 
 	@Column(name = "Luggage")

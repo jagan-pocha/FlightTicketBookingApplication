@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigInteger;
 import java.util.List;
-
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +34,8 @@ public class FlightServiceTests {
 	
 		Flight flight=new Flight(1,"GoJet Airlines","CRJ500",60);
 		when(flightDao.save(flight)).thenReturn(flight);
-		assertEquals(flight,flightService.addFlight(flight));
+		Flight flight1=flightDao.save(flight);
+		assertEquals(flight1,flightService.addFlight(flight1));
 	}
 	
 	
@@ -43,8 +44,9 @@ public class FlightServiceTests {
 	{
 
 		Flight flight=new Flight(2,"American Airlines","AAB600",80);
-		when(flightDao.save(flight)).thenReturn(flight);
-		assertEquals(flight,flightService.addFlight(flight));
+		Flight flight1=flightDao.save(flight);;
+		when(flightDao.save(flight1)).thenReturn(flight1);
+		assertEquals(flight1,flightService.addFlight(flight1));
 	}
 	
 	
@@ -52,9 +54,10 @@ public class FlightServiceTests {
 	public void testViewFlight()
 	{
 
-		Flight flight=new Flight(2,"American Airlines","AAB600",80);
-		when(flightDao.save(flight)).thenReturn(flight); 
-		assertEquals(flight.getFlightModel(),flightService.viewFlight(2).getFlightModel());
+		Flight flight=new Flight(3,"American Airlines","AAB600",80);
+		Flight flight1=flightDao.save(flight);  
+		when(flightDao.save(flight1)).thenReturn(flight1);
+		assertEquals(flight1,flightService.viewFlight(flight.getFlightNumber()));
 		
 	}
 	
@@ -62,6 +65,10 @@ public class FlightServiceTests {
 	@Test
 	public void testViewAllFlights()
 	{
+		Flight flight=new Flight(2,"American Airlines","AAB600",80);
+		Flight flight1=new Flight(2,"Airlines","A600",70);
+		flightDao.save(flight);
+		flightDao.save(flight1);
 		List<Flight> flightsList=flightDao.findAll();
 		assertEquals(flightsList,flightService.viewAllFlights());
 	}
@@ -73,9 +80,9 @@ public class FlightServiceTests {
 
 		Flight flight=new Flight(2,"GoJet Airlines","CRJ500",60);
 		when(flightDao.save(flight)).thenReturn(flight);
-		Flight flight1=flightService.removeFlight(2);
-		System.out.println(flight1.getCarrierName());
-		assertEquals(flight,flight1);
+		flightDao.save(flight);
+		flightDao.deleteById(flight.getFlightNumber());
+		assertEquals(Optional.empty(),flightDao.findById(2));
 	}
 	
 	

@@ -13,9 +13,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -24,22 +27,26 @@ public class Schedule {
 	
 	@Id
 	@Column(name = "schedule_Id")
-	private BigInteger scheduleId;
+	@Min(value=777000,message="shouldbe between 777000 and 777999")
+	@Max(value=777999,message="shouldbe between 777000 and 777999")
+	private int scheduleId;
 
 	@Column
+	@Size(min=3,max=25,message="Airport code not be null and minimum 3 letters")
 	private String srcAirport;
 
 	@Column
+	@Size(min=3,max=25,message="Airport code not be null and minimum 3 letters")
 	private String dstnAirport;
 
 	@Column(name = "departure_date")
 	@NotNull(message="Required Filed")
-	@Pattern(regexp="[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]",message="Format mm/dd/yyyy")
+	@Pattern(regexp="[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]",message="Format mm-dd-yyyy")
 	private String deptDate;
 
 	@Column(name = "arrival_date")
 	@NotNull(message="Required Filed")
-	@Pattern(regexp="[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]",message="Format mm/dd/yyyy")
+	@Pattern(regexp="[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]",message="Format mm-dd-yyyy")
 	private String arrDate;
 	
 	@Column(name = "arrival_time")

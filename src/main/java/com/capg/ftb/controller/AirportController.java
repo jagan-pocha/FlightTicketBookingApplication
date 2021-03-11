@@ -6,9 +6,12 @@ package com.capg.ftb.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,13 +29,14 @@ import com.capg.ftb.service.IAirportService;
 
 @RestController
 @RequestMapping(value="/ftb")
+@Validated
 public class AirportController {
 
 	@Autowired
 	private IAirportService airportService;
 
 	@PostMapping(value="/addAirport")	
-	public ResponseEntity<Airport> addAirport(@RequestBody Airport airport) {
+	public ResponseEntity<Airport> addAirport(@Valid @RequestBody Airport airport) {
 		
 		Airport airport1=airportService.addAirport(airport);
 		return new ResponseEntity<Airport>(airport1,HttpStatus.CREATED);

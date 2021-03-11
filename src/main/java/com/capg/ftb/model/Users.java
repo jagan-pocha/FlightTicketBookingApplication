@@ -6,6 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -19,15 +23,21 @@ public class Users {
 	private int userId;
 	
 	@Column
+	@Size(min=5,max=8,message="type should be admin/customer")
 	private String userType;
 	
 	@Column
+	@Size(min=3,message="Name can not be less than 3 letters")
 	private String userName;
 	
 	@Column
+	@Size(min=8,message="password should be atleast 8 letters")
 	private String password;
 	
 	@Column
+	@Min(value=10,message="Number should be 10 digits")
+	@Max(value=10,message="Number should be 10 digits")
+	@Pattern(regexp="[1-9][0-9]{9}",message="Number must not start with 0")
 	private String mobileNumber;
 	
 	@Column

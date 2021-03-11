@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import com.capg.ftb.service.ScheduledFlightServiceImpl;
 
 @RestController
 @RequestMapping(value="/ftb")
+@Validated
 public class ScheduledFlightController {
 
 	@Autowired
@@ -60,10 +62,11 @@ public class ScheduledFlightController {
 	}
 	
 
-	@GetMapping(value="/searchScheduledFlight/{srcAirport}/{dstnAirport}")
-	public ResponseEntity<List<ScheduledFlight>> searchScheduledFlight(@PathVariable String srcAirport,@PathVariable String dstnAirport)
+	@GetMapping(value="/searchScheduledFlight/{srcAirport}/{dstnAirport}/{deptDate}")
+	
+	public ResponseEntity<List<ScheduledFlight>> searchScheduledFlight(@PathVariable String srcAirport,@PathVariable String dstnAirport,@PathVariable String deptDate)
 	{
-		List<ScheduledFlight> sFlights=scheduledFService.searchScheduledFlight(srcAirport, dstnAirport);
+		List<ScheduledFlight> sFlights=scheduledFService.searchScheduledFlight(srcAirport, dstnAirport,deptDate);
 		return new ResponseEntity<List<ScheduledFlight>>(sFlights,HttpStatus.OK);
 	}
 	

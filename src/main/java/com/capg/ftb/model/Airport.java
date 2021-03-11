@@ -9,7 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -17,15 +19,21 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "Airport")
 public class Airport {
 	
+	
+
 	@Id
+	@Size(min=3,message="code must be atleast 3 letters")
+	@NotNull(message="code cannot be bull")
 	private String airportCode;
 	
 	@Column
-	@NotNull
+	@Size(min=3,message="name must be atleast 3 letters")
+	@NotNull(message="code cannot be bull")
 	private String airportName;
 
 	@Column
-	@NotNull
+	@Size(min=3,message="location must be atleast 3 letters")
+	@NotNull(message="code cannot be bull")
 	private String airportLocation;
 
 	public Airport() {

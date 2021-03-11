@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="Booking")
@@ -17,17 +20,18 @@ public class Booking {
 	
 	@Id
 	private int bookingId;
-	@OneToOne
-	private Users userId;
+	@Column
+	private int userId;
 	@Column
 	private LocalDate bookingDate;
 	@OneToMany
 	private List <Passenger> passengerList;
 	@Column
 	private double ticketCost;
-	@OneToOne
-	private Flight flight;
 	@Column
+	private int scheduledFlightId;
+	@Column
+	@Min(value=1,message="atleast one passenger required")
 	private int noOfPassangers;
 	
 	public int getBookingId() {
@@ -37,10 +41,10 @@ public class Booking {
 		this.bookingId = bookingId;
 	}
 	
-	public Users getUserId() {
+	public int getUserId() {
 		return userId;
 	}
-	public void setUserId(Users userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	
@@ -65,12 +69,6 @@ public class Booking {
 		this.ticketCost = ticketCost;
 	}
 	
-	public Flight getFlight() {
-		return flight;
-	}
-	public void setFlight(Flight flight) {
-		this.flight = flight;
-	}
 	
 	public int getNoOfPassangers() {
 		return noOfPassangers;
@@ -79,14 +77,20 @@ public class Booking {
 		this.noOfPassangers = noOfPassangers;
 	}
 	
-	public Booking(int bookingId,Users userId,LocalDate bookingDate,List <Passenger> passengerList,double ticketCost,Flight flight) {
+	public Booking(int bookingId,int userId,LocalDate bookingDate,List <Passenger> passengerList,double ticketCost,int scheduledFlightId) {
 		super();
 		this.bookingId=bookingId;
 		this.userId=userId;
 		this.bookingDate=bookingDate;
 		this.passengerList=passengerList;
 		this.ticketCost=ticketCost;
-		this.flight=flight;
+		this.scheduledFlightId=scheduledFlightId;
+	}
+	public int getScheduledFlightId() {
+		return scheduledFlightId;
+	}
+	public void setScheduledFlightId(int scheduledFlightId) {
+		this.scheduledFlightId = scheduledFlightId;
 	}
 		
 }

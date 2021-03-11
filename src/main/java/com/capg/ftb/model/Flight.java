@@ -34,7 +34,7 @@ public class Flight
 	
 	
 	@Column
-	@Size(min=3)
+	@Size(min=3,message="minimjm three letters")
 	@NotNull(message="Cannot be Null and minimum length 3")
 	private String flightModel;
 	
