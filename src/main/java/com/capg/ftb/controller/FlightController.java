@@ -7,6 +7,8 @@ package com.capg.ftb.controller;
 import java.math.BigInteger;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +35,7 @@ public class FlightController {
 	
 	// Adds a new flight which can be scheduled
 	@PostMapping(value="/addFlight")
-	public ResponseEntity<Flight> addFlight(@RequestBody Flight flight)
+	public ResponseEntity<Flight> addFlight(@Valid @RequestBody Flight flight)
 	{
 		Flight flight1=flightService.addFlight(flight);
 		return new ResponseEntity<Flight>(flight1,HttpStatus.CREATED);

@@ -10,7 +10,7 @@ import com.capg.ftb.model.Airport;
 import com.capg.ftb.model.Flight;
 
 @Repository
-public interface AirportDAO extends JpaRepository<Airport, String> {
+public interface IAirportDAO extends JpaRepository<Airport, String> {
 
 	
 

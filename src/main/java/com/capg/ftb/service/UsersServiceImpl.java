@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.capg.ftb.dao.UsersDAO;
+import com.capg.ftb.dao.IUsersDAO;
 import com.capg.ftb.model.Users;
 
 
@@ -14,7 +14,7 @@ import com.capg.ftb.model.Users;
 public class UsersServiceImpl implements IUsersService{
 
 	@Autowired
-	private UsersDAO usersDao;
+	private IUsersDAO usersDao;
 	
 	@Override
 	public Users addUser(Users user) {

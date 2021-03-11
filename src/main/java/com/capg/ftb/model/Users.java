@@ -35,8 +35,6 @@ public class Users {
 	private String password;
 	
 	@Column
-	@Min(value=10,message="Number should be 10 digits")
-	@Max(value=10,message="Number should be 10 digits")
 	@Pattern(regexp="[1-9][0-9]{9}",message="Number must not start with 0")
 	private String mobileNumber;
 	

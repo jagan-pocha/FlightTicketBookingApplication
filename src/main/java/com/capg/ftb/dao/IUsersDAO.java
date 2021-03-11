@@ -1,16 +1,15 @@
 package com.capg.ftb.dao;
 
 import java.math.BigInteger;
-import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.capg.ftb.model.ScheduledFlight;
-
+import com.capg.ftb.model.Users;
 
 @Repository
-public interface ScheduleFlightDAO extends JpaRepository<ScheduledFlight,Integer>{
+public interface IUsersDAO extends JpaRepository<Users,Integer>{
 
-	 
+	Users findByUserName(String userName);
+	
 }

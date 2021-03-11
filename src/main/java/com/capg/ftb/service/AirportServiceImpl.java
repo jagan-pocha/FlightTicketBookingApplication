@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.capg.ftb.dao.AirportDAO;
+import com.capg.ftb.dao.IAirportDAO;
 import com.capg.ftb.exception.FlightNotFoundException;
 import com.capg.ftb.exception.RecordAlreadyPresentException;
 import com.capg.ftb.exception.RecordNotFoundException;
@@ -18,7 +18,7 @@ import com.capg.ftb.model.Airport;
 public class AirportServiceImpl implements IAirportService {
 	
 	@Autowired
-	private AirportDAO airportDao;
+	private IAirportDAO airportDao;
 
 	// View all Airports
 	@Override

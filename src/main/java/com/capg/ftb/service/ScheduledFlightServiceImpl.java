@@ -10,9 +10,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.capg.ftb.dao.AirportDAO;
+import com.capg.ftb.dao.IAirportDAO;
 import com.capg.ftb.dao.FlightDAO;
-import com.capg.ftb.dao.ScheduleFlightDAO;
+import com.capg.ftb.dao.IScheduleFlightDAO;
 import com.capg.ftb.exception.AirportNotFoundException;
 import com.capg.ftb.exception.FlightNotFoundException;
 import com.capg.ftb.exception.SeatsNotAvailableException;
@@ -24,10 +24,10 @@ import com.capg.ftb.model.ScheduledFlight;
 public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 
 	@Autowired
-	private ScheduleFlightDAO scheduleFilghtDao;
+	private IScheduleFlightDAO scheduleFilghtDao;
 	
 	@Autowired
-	private AirportDAO airportDao;
+	private IAirportDAO airportDao;
 	
 	@Autowired
 	private FlightDAO flightDao;

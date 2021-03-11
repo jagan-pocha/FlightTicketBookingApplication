@@ -27,10 +27,8 @@ public class Passenger {
 	private int passengerAge;
 
 	@Column(name = "passengerUIN")
-	@Min(value=12,message="must be only 12 letters")
-	@Max(value=12,message="must be only 12 letters")
-	@NotNull(message="code cannot be bull")
-	private BigInteger passengerUIN;
+	@Size(min=12)
+	private String passengerUIN;
 
 	@Column(name = "Luggage")
 	private Double Luggage;
@@ -59,11 +57,11 @@ public class Passenger {
 		this.passengerAge = passengerAge;
 	}
 
-	public BigInteger getPassengerUIN() {
+	public @Size(min = 12, max = 12) String getPassengerUIN() {
 		return passengerUIN;
 	}
 
-	public void setPassengerUIN(BigInteger passengerUIN) {
+	public void setPassengerUIN(@Size(min = 12, max = 12) String passengerUIN) {
 		this.passengerUIN = passengerUIN;
 	}
 
@@ -79,7 +77,7 @@ public class Passenger {
 		super();
 	}
 	
-	public Passenger(int pnrNumber, String passengerName,int passengerAge, BigInteger passengerUIN, Double Luggage) {
+	public Passenger(int pnrNumber, String passengerName,int passengerAge, @Size(min = 12, max = 12) String passengerUIN, Double Luggage) {
 		super();
 		this.pnrNumber = pnrNumber;
 		this.passengerName = passengerName;

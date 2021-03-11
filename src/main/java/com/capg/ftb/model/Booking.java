@@ -1,12 +1,20 @@
+/*
+ * Aithor :Thiracy Mary
+ */
+
 package com.capg.ftb.model;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -19,13 +27,16 @@ import javax.validation.constraints.Size;
 public class Booking {
 	
 	@Id
+	@GeneratedValue
 	private int bookingId;
 	@Column
 	private int userId;
 	@Column
 	private LocalDate bookingDate;
-	@OneToMany
-	private List <Passenger> passengerList;
+	
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@JoinColumn(name="bookedById") 
+	private List<Passenger> passengerList;
 	@Column
 	private double ticketCost;
 	@Column
@@ -70,6 +81,9 @@ public class Booking {
 	}
 	
 	
+	public Booking() {
+		super();
+	}
 	public int getNoOfPassangers() {
 		return noOfPassangers;
 	}

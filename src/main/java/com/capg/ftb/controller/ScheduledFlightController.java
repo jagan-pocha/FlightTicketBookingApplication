@@ -56,7 +56,6 @@ public class ScheduledFlightController {
 	{
 		ScheduledFlight sFlight=scheduledFService.modifyScheduledFlight(scheduleFlightId);
 		scheduledFService.removeScheduledFlight(scheduleFlightId);
-		System.out.println(sFlight);
 		ScheduledFlight sFlight1=scheduledFService.addScheduledFlight(sFlight);
 		return new ResponseEntity<ScheduledFlight>(sFlight1,HttpStatus.OK);
 	}

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import com.capg.ftb.dao.AirportDAO;
+import com.capg.ftb.dao.IAirportDAO;
 import com.capg.ftb.model.Airport;
 
 @SpringBootTest
@@ -21,7 +21,7 @@ public class AirportServiceTests {
 
 	
 	@MockBean
-	private AirportDAO airportDao;
+	private IAirportDAO airportDao;
 	
 	@Autowired
 	private IAirportService airportService;

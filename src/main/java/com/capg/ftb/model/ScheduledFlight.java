@@ -32,7 +32,6 @@ public class ScheduledFlight {
 	private int flight;
 
 	@Column(name = "availableseats")
-	@NotEmpty()
 	@Min(value=10,message="minimum seats 10 required")
 	private Integer availableSeats;
 

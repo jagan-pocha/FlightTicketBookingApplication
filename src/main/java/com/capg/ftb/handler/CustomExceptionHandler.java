@@ -24,6 +24,7 @@ import com.capg.ftb.exception.FlightNotFoundException;
 import com.capg.ftb.exception.RecordAlreadyPresentException;
 import com.capg.ftb.exception.RecordNotFoundException;
 import com.capg.ftb.exception.SeatsNotAvailableException;
+import com.capg.ftb.exception.UserNotFoundException;
 
 @RestControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
@@ -56,6 +57,12 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
 	public ResponseEntity<String> handleSeatsNotAvailable(SeatsNotAvailableException snae)
 	{
 		return new ResponseEntity<String>(snae.getMessage(),HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<String> handleUserNotAvailable(UserNotFoundException unfe)
+	{
+		return new ResponseEntity<String>(unfe.getMessage(),HttpStatus.NOT_FOUND);
 	}
 	
 	 @Override
