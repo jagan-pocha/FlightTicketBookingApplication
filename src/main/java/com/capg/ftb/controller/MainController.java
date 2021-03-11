@@ -30,9 +30,7 @@ public class MainController {
 
 	@Autowired
 	private IUsersService usersService;
-	
-	@Autowired
-	private IFlightService flightService;
+
 	
 	
 	
@@ -72,50 +70,7 @@ public class MainController {
 	
 	
 	
-	// Flight Services
 	
-	@PostMapping(value="/addFlight")
-	public ResponseEntity<Flight> addFlight(@Valid @RequestBody Flight flight)
-	{
-		Flight flight1=flightService.addFlight(flight);
-		return new ResponseEntity<Flight>(flight1,HttpStatus.CREATED);
-	}
-	
-	
-	@GetMapping(value="/viewFlight/{flightNumber}")
-	public ResponseEntity<Flight> viewFlight(@PathVariable int flightNumber)
-	{
-		Flight flight=flightService.viewFlight(flightNumber);
-		return new ResponseEntity<Flight>(flight,HttpStatus.OK);
-		
-	}
-	
-	
-	@GetMapping(value="/viewAllFlights")
-	public ResponseEntity<List<Flight>> viewAllFlights()
-	{
-		List<Flight> flightsList=flightService.viewAllFlights();
-		return new  ResponseEntity<List<Flight>>(flightsList,HttpStatus.OK);
-	}
-	
-	
-	@DeleteMapping(value="/deleteFlight/{flightNumber}")
-	public ResponseEntity<Flight> deleteFlight(@PathVariable int flightNumber)
-	{
-		Flight flight=flightService.removeFlight(flightNumber);
-		return new ResponseEntity<Flight>(flight,HttpStatus.OK);
-	}
-	
-	@PutMapping(value="/updateFlight/{flightNumber}")
-	public ResponseEntity<Flight> updateFlight(@PathVariable int flightNumber,@RequestBody Flight flight)
-	{
-		Flight flight1=flightService.updateFlight(flightNumber);
-		flight1.setSeatCapacity(flight.getSeatCapacity());
-		flight1.setCarrierName(flight.getCarrierName());
-		flight1.setFlightModel(flight.getFlightModel());
-		Flight flight2=flightService.addFlight(flight1);
-		return  new ResponseEntity<Flight>(flight2,HttpStatus.OK);
-	}
 	
 	
 }

@@ -1,3 +1,8 @@
+/* 
+ * Author:Mrudhula
+ * 
+ */
+
 package com.capg.ftb.model;
 import java.math.BigInteger;
 

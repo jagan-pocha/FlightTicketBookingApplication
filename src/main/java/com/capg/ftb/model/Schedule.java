@@ -70,7 +70,7 @@ public class Schedule {
 	 * Parameterized constructor
 	 */
 	
-	public Schedule(BigInteger scheduleId, String srcAirport, String dstnAirport,
+	public Schedule(@Min(value = 777000, message = "shouldbe between 777000 and 777999") @Max(value = 777999, message = "shouldbe between 777000 and 777999") int scheduleId, String srcAirport, String dstnAirport,
 			String deptDate, String arrDate,String arrTime,String deptTime) {
 		super();
 		this.scheduleId = scheduleId;
@@ -101,11 +101,11 @@ public class Schedule {
 	/*
 	 * Getters and setters
 	 */
-	public BigInteger getScheduleId() {
+	public @Min(value = 777000, message = "shouldbe between 777000 and 777999") @Max(value = 777999, message = "shouldbe between 777000 and 777999") int getScheduleId() {
 		return scheduleId;
 	}
 
-	public void setScheduleId(BigInteger scheduleId) {
+	public void setScheduleId(@Min(value = 777000, message = "shouldbe between 777000 and 777999") @Max(value = 777999, message = "shouldbe between 777000 and 777999") int scheduleId) {
 		this.scheduleId = scheduleId;
 	}
 

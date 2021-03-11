@@ -1,8 +1,10 @@
+/*
+ * Author Mrudhula
+ */
 package com.capg.ftb.service;
 
-import java.math.BigInteger;
+
 import java.util.List;
-import java.util.Set;
 
 import com.capg.ftb.model.Flight;
 
@@ -14,8 +16,8 @@ public interface IFlightService {
 	
 	public List<Flight> viewAllFlights();
 	
-	public Flight removeFlight(int flightNumber);
+	public Flight deleteFlight(int flightNumber);
 	
-	public Flight updateFlight(int flightNumber);
+	public Flight modifyFlight(int flightNumber);
 	
 }
