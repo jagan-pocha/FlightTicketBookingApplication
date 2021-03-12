@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 import com.capg.ftb.exception.AirportNotFoundException;
+import com.capg.ftb.exception.FlightExceptions;
 import com.capg.ftb.exception.FlightNotFoundException;
 import com.capg.ftb.exception.RecordAlreadyPresentException;
 import com.capg.ftb.exception.RecordNotFoundException;
 import com.capg.ftb.exception.SeatsNotAvailableException;
 import com.capg.ftb.exception.UserNotFoundException;
+import com.capg.ftb.exception.scheduleEntityExceptions;
 
 @RestControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
@@ -64,6 +66,20 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
 	{
 		return new ResponseEntity<String>(unfe.getMessage(),HttpStatus.NOT_FOUND);
 	}
+	
+	
+	@ExceptionHandler(scheduleEntityExceptions.class)
+	public ResponseEntity<String> handleSchedule(scheduleEntityExceptions see)
+	{
+		return new ResponseEntity<String>(see.getMessage(),HttpStatus.NOT_FOUND);
+	}
+	
+	 
+	 @ExceptionHandler(FlightExceptions.class)
+		public ResponseEntity<String> handleFlight(FlightExceptions fee)
+		{
+			return new ResponseEntity<String>(fee.getMessage(),HttpStatus.NOT_FOUND);
+		}
 	
 	 @Override
 	    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,

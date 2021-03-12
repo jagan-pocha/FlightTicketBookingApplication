@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.capg.ftb.dao.IUsersDAO;
+import com.capg.ftb.exception.RecordAlreadyPresentException;
 import com.capg.ftb.exception.UserNotFoundException;
 import com.capg.ftb.model.Users;
 
@@ -25,7 +26,7 @@ public class UsersServiceImpl implements IUsersService{
 		Users user1=getByName(user.getUserName());
 		if(user1!=null)
 		{
-			return null;
+			throw new RecordAlreadyPresentException("User name already exited");
 		}
 		else
 		{
@@ -37,7 +38,7 @@ public class UsersServiceImpl implements IUsersService{
 	
 
 	@Override
-	public Users viewUser(int userId) {
+	public Users viewUser(BigInteger userId) {
 		// TODO Auto-generated method stub
 		Optional<Users> optional=usersDao.findById(userId);
 		Users user1=optional.orElseThrow(()->new UserNotFoundException("User is Not Existing with the id : "+userId));
@@ -53,18 +54,20 @@ public class UsersServiceImpl implements IUsersService{
 	}
 
 	@Override
-	public Users updateUser(int userId) {
+	public Users updateUser(Users newUser,BigInteger userId) {
 		// TODO Auto-generated method stub
 		Optional<Users> optional=usersDao.findById(userId);
 		Users user4=optional.orElseThrow(()->new UserNotFoundException("User Not Existed with the id : "+userId));
-		return user4;
+		usersDao.deleteById(userId);
+		return newUser;
 	}
 
 	@Override
-	public Users deleteUser(int userId) {
+	public Users deleteUser(BigInteger userId) {
 		// TODO Auto-generated method stub
 		Optional<Users> optional=usersDao.findById(userId);
 		Users user1=optional.orElseThrow(()->new UserNotFoundException("User Not exisited with ID: " +userId));
+		
 		usersDao.deleteById(userId);
 		return user1;
 	}

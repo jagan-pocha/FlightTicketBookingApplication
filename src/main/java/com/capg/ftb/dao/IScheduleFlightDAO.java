@@ -13,7 +13,7 @@ import com.capg.ftb.model.ScheduledFlight;
 
 
 @Repository
-public interface IScheduleFlightDAO extends JpaRepository<ScheduledFlight,Integer>{
+public interface IScheduleFlightDAO extends JpaRepository<ScheduledFlight,BigInteger>{
 
 	 
 }

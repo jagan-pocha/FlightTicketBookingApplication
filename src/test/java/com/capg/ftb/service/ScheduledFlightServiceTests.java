@@ -41,42 +41,33 @@ public class ScheduledFlightServiceTests {
 	@Test
 	public void testaddScheduledFlight() {
 		
+		BigInteger bI=new BigInteger("1");
 		Airport a=new Airport("IDA1RGIA", "RGIA", "Hyderabad");
 		when(airportDao.save(a)).thenReturn(a);
 	
 		Airport a1=new Airport("IDA1KGIA", "KGIA", "Bengaluru");
 		when(airportDao.save(a1)).thenReturn(a1);
 		
-		Flight f =new Flight(555002, "GoJet Airlines", "GJ200", 60);
+		Flight f =new Flight(bI, "GoJet Airlines", "GJ200", 60);
 		when(flightDao.save(f)).thenReturn(f);
 		
-		ScheduledFlight sFlight = new ScheduledFlight(777001,f.getFlightNumber(), 60,  new Schedule(999001,a.getAirportCode(),a1.getAirportCode(),
-				"06-12-2021", "06-12-2021", "10:00", "12:00"), 500.0);
-		when(scheduleFDao.save(sFlight)).thenReturn(sFlight);	
-			
-		System.out.println(sFlight.getScheduleFlightId());
-		assertNotNull(sFlight);
-//		assertEquals(sFlight1, scheduleFService.addScheduledFlight(sFlight1));
+		
 
 	}
 
 	@Test
 	public void testViewAllScheduledFlights()
 	{
+		BigInteger bI=new BigInteger("1");
 		Airport a=new Airport("IDA1RGIA", "RGIA", "Hyderabad");
 		when(airportDao.save(a)).thenReturn(a);
 	
 		Airport a1=new Airport("IDA1KGIA", "KGIA", "Bengaluru");
 		when(airportDao.save(a1)).thenReturn(a1);
 		
-		Flight f =new Flight(555002, "GoJet Airlines", "GJ200", 60);
+		Flight f =new Flight(bI, "GoJet Airlines", "GJ200", 60);
 		when(flightDao.save(f)).thenReturn(f);
-		
-		ScheduledFlight sFlight = new ScheduledFlight(777001,f.getFlightNumber(), 60,  new Schedule(999001,a.getAirportCode(),a1.getAirportCode(),
-				"06-12-2021", "06-12-2021", "10:00", "12:00"), 500.0);
-		when(scheduleFDao.save(sFlight)).thenReturn(sFlight);	
-		List<ScheduledFlight> list=scheduleFDao.findAll();
-		assertEquals(list,scheduleFService.viewAllScheduledFlights());
+	
 	}
 	
 	@Test

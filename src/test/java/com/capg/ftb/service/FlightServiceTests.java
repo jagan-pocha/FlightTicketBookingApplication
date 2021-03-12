@@ -31,8 +31,8 @@ public class FlightServiceTests {
 	@Test
 	public void testAddFlight()
 	{
-	
-		Flight flight=new Flight(1,"GoJet Airlines","CRJ500",60);
+		BigInteger bI=new BigInteger("1");
+		Flight flight=new Flight(bI,"GoJet Airlines","CRJ500",60);
 		when(flightDao.save(flight)).thenReturn(flight);
 		Flight flight1=flightDao.save(flight);
 		assertEquals(flight1,flightService.addFlight(flight1));
@@ -42,8 +42,8 @@ public class FlightServiceTests {
 	@Test
 	public void test2AddFlight()
 	{
-
-		Flight flight=new Flight(2,"American Airlines","AAB600",80);
+		BigInteger bI=new BigInteger("1");
+		Flight flight=new Flight(bI,"American Airlines","AAB600",80);
 		Flight flight1=flightDao.save(flight);;
 		when(flightDao.save(flight1)).thenReturn(flight1);
 		assertEquals(flight1,flightService.addFlight(flight1));
@@ -52,9 +52,10 @@ public class FlightServiceTests {
 	
 	@Test
 	public void testViewFlight() {
-		Optional<Flight> flight = Optional.ofNullable(new Flight(3,"American Airlines","AAB600",80));
+		BigInteger bI=new BigInteger("1");
+		Optional<Flight> flight = Optional.ofNullable(new Flight(bI,"American Airlines","AAB600",80));
 		when(flightDao.save(flight.get())).thenReturn(flight.get());
-		when(flightDao.findById(3)).thenReturn(flight);
+		when(flightDao.findById(bI)).thenReturn(flight);
 		
 		}
 	
@@ -62,8 +63,9 @@ public class FlightServiceTests {
 	@Test
 	public void testViewAllFlights()
 	{
-		Flight flight=new Flight(2,"American Airlines","AAB600",80);
-		Flight flight1=new Flight(2,"Airlines","A600",70);
+		BigInteger bI=new BigInteger("1");
+		Flight flight=new Flight(bI,"American Airlines","AAB600",80);
+		Flight flight1=new Flight(bI,"Airlines","A600",70);
 		flightDao.save(flight);
 		flightDao.save(flight1);
 		List<Flight> flightsList=flightDao.findAll();
@@ -74,20 +76,20 @@ public class FlightServiceTests {
 	@Test
 	public void testDeleteFlight()
 	{
-
-		Flight flight=new Flight(2,"GoJet Airlines","CRJ500",60);
+		BigInteger bI=new BigInteger("1");
+		Flight flight=new Flight(bI,"GoJet Airlines","CRJ500",60);
 		when(flightDao.save(flight)).thenReturn(flight);
 		flightDao.save(flight);
 		flightDao.deleteById(flight.getFlightNumber());
-		assertEquals(Optional.empty(),flightDao.findById(2));
+		assertEquals(Optional.empty(),flightDao.findById(bI));
 	}
 	
 	
 	@Test
 	public void testUpdateFlight()
 	{
-		
-		Flight flight=new Flight(2,"GoJet Airlines","CRJ500",60);
+		BigInteger bI=new BigInteger("1");
+		Flight flight=new Flight(bI,"GoJet Airlines","CRJ500",60);
 		when(flightDao.save(flight)).thenReturn(flight);
 		Flight flight1=flightDao.save(flight);
 		flight1.setCarrierName("JetAirways");

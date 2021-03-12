@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 
 import io.swagger.annotations.ApiModel;
 
-@ApiModel
+@ApiModel()
 public class MyGenerator implements IdentifierGenerator{
 
 	@Override

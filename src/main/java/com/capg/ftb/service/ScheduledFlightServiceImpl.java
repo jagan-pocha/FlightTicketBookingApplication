@@ -4,11 +4,14 @@
 
 package com.capg.ftb.service;
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +20,13 @@ import com.capg.ftb.dao.IAirportDAO;
 import com.capg.ftb.dao.FlightDAO;
 import com.capg.ftb.dao.IScheduleFlightDAO;
 import com.capg.ftb.exception.AirportNotFoundException;
+import com.capg.ftb.exception.FlightExceptions;
 import com.capg.ftb.exception.FlightNotFoundException;
 import com.capg.ftb.exception.SeatsNotAvailableException;
+import com.capg.ftb.exception.scheduleEntityExceptions;
 import com.capg.ftb.model.Airport;
 import com.capg.ftb.model.Flight;
+import com.capg.ftb.model.Schedule;
 import com.capg.ftb.model.ScheduledFlight;
 
 @Service
@@ -41,10 +47,13 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 	public ScheduledFlight addScheduledFlight(ScheduledFlight scheduledFlight) {
 		// TODO Auto-generated method stub
 		
+		//validating Flight and Schedule Entity Attributes
+		
+		if(validate(scheduledFlight))
+		{
 		//Condition to check source airport is available or not 
 		
 		Optional<Airport> optional=airportDao.findById(scheduledFlight.getSchedule().getSrcAirport());
-		//System.out.println(scheduledFlight.getSchedule().getSrcAirport());
 		Airport airport=optional.orElseThrow(() ->new AirportNotFoundException("Source Airport Not Existed with the Code: "+scheduledFlight.getSchedule().getSrcAirport()));
 		
 		//Condition to check destination airport is available or not 
@@ -52,14 +61,9 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		Optional<Airport> optional1=airportDao.findById(scheduledFlight.getSchedule().getDstnAirport());
 		Airport airport1=optional1.orElseThrow(()->new AirportNotFoundException("Destination Airport Not Existed with the Code: "+scheduledFlight.getSchedule().getDstnAirport()));
 
-		//Condition to check flight is available or not 
-		
-		Optional<Flight> optional2=flightDao.findById(scheduledFlight.getFlight());
-		Flight flight=optional2.orElseThrow(()->new FlightNotFoundException("Flight Not Existed with the Id : "+scheduledFlight.getFlight()));
-
 		//Condition to check seating capacity 
 		
-		if(flight.getSeatCapacity()!=scheduledFlight.getAvailableSeats())
+		if(scheduledFlight.getFlight().getSeatCapacity()!=scheduledFlight.getAvailableSeats())
 		{
 			throw new SeatsNotAvailableException("Available seats should be equal to flight eating capacity");
 		}
@@ -98,6 +102,11 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		return scheduledFlight1;
 		}
 		}
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	//Method to check flight is already scheduled
@@ -133,33 +142,27 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 	//Method to modify the scheduled flight
 
 	@Override
-	public ScheduledFlight modifyScheduledFlight(ScheduledFlight scheduledFlight,int scheduledFlightId) {
+	public ScheduledFlight modifyScheduledFlight(ScheduledFlight scheduledFlight,BigInteger scheduledFlightId) {
 		// TODO Auto-generated method stub
 		
 		//Checking whether the flight is scheduled before to modify
 		Optional<ScheduledFlight> optional=scheduleFilghtDao.findById(scheduledFlightId);
 		ScheduledFlight sFlight=optional.orElseThrow(()->new FlightNotFoundException("No Scheduled Flight with schedule ID : "+scheduledFlightId));
 		
-		//checking whether the flight is booked by any pasengers 
-		Optional<Flight> optional1=flightDao.findById(sFlight.getFlight());
-		Flight flight=optional1.orElseThrow(()->new FlightNotFoundException("Flight Not Existed with the Id : "+scheduledFlight.getFlight()));
 		
-		Optional<Flight> optional2=flightDao.findById(scheduledFlight.getFlight());
-		Flight flight1=optional1.orElseThrow(()->new FlightNotFoundException("Flight Not Existed with the Id to schdule : "+scheduledFlight.getFlight()));
-		
-		if(sFlight.getAvailableSeats()<flight.getSeatCapacity())
+		if(sFlight.getAvailableSeats()<sFlight.getFlight().getSeatCapacity())
 		{
 			throw new FlightNotFoundException("Unable to modify ! Pasengers are already booked the flight");
 		}
-		else if(flight1.getSeatCapacity()<scheduledFlight.getAvailableSeats())
+		else if(scheduledFlight.getFlight().getSeatCapacity()<scheduledFlight.getAvailableSeats())
 		{
 			
 			throw new FlightNotFoundException("Avialable seats cannot be  more than capacity");
 		}
 		else
 		{
-			ScheduledFlight sFlight1=scheduledFlight;
-			scheduleFilghtDao.deleteById(scheduledFlightId);
+			
+			//SscheduleFilghtDao.deleteById(scheduledFlightId);
 		return scheduledFlight;
 		}
 	}
@@ -176,7 +179,7 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 	///method to View a scheduled flight based on id
 	
 	@Override
-	public ScheduledFlight viewScheduledFlight(int scheduledFlightId) {
+	public ScheduledFlight viewScheduledFlight(BigInteger scheduledFlightId) {
 		// TODO Auto-generated method stub
 		
 		Optional<ScheduledFlight> optional=scheduleFilghtDao.findById(scheduledFlightId);
@@ -187,7 +190,7 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 	//method to remove the scheduled flight
 
 	@Override
-	public void removeScheduledFlight(int scheduleFlightId) {
+	public void removeScheduledFlight(BigInteger scheduleFlightId) {
 		// TODO Auto-generated method stub
 		Optional<ScheduledFlight> optional=scheduleFilghtDao.findById(scheduleFlightId);
 		ScheduledFlight sFlight=optional.orElseThrow(()->new FlightNotFoundException("No Scheduled Flight with schedule ID : "+scheduleFlightId));
@@ -200,6 +203,14 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 	@Override
 	public List<ScheduledFlight> searchScheduledFlight(String srcAirport, String destAirport,String deptDate) {
 		// TODO Auto-generated method stub
+		
+		Pattern p1=Pattern.compile("[0-9][1-9]-[0-9][0-9]-[2-9][0-9][0-9][0-9]");
+		if(!(p1.matcher(deptDate).find()))
+		{
+			throw new scheduleEntityExceptions("Date Format is Strict must be MM-DD-YYYY");	
+		}
+		else
+		{
 		List<ScheduledFlight> list=scheduleFilghtDao.findAll();
 		List<ScheduledFlight> list1=new ArrayList<ScheduledFlight>();
 		for(int i=0;i<list.size();i++)
@@ -212,8 +223,45 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 			}
 		}
 		return list1;
+		}
 	}
-	
+     
+	//validating all the attributes of schedule and Flight Entity
+	@Override
+	public boolean validate(ScheduledFlight scheduledFlight) {
+		// TODO Auto-generated method stub
+		
+		Flight flight=scheduledFlight.getFlight();
+		Schedule schedule=scheduledFlight.getSchedule();
+		Pattern p=Pattern.compile("[0-9][1-9]:[0-9][0-9]");
+		Pattern p1=Pattern.compile("[0-9][1-9]-[0-9][0-9]-[2-9][0-9][0-9][0-9]");
+		
+		if(flight.getCarrierName().length()<3 && flight.getFlightModel().length()<3)
+		{
+			throw new FlightExceptions("Carrier Name and Flight model cannot be less than 3 characters");
+		}
+		else if(!(p.matcher(schedule.getArrTime()).find()) && !(p.matcher(schedule.getDeptTime()).find()))
+		{
+			throw new scheduleEntityExceptions("Time Format is Strict must be HH:MM");	
+		}
+		else if(flight.getSeatCapacity()<30)
+		{
+			throw new FlightExceptions("minimum seating capacity 30");
+		}
+		else if(!(p1.matcher(schedule.getDeptDate()).find()) && !(p1.matcher(schedule.getArrDate()).find())) 
+		{
+			throw new scheduleEntityExceptions("Date Format is Strict must be MM-DD-YYYY");
+		}
+		else if(schedule.getDstnAirport()==schedule.getSrcAirport())
+		{
+			throw new scheduleEntityExceptions("Src and Destination can not be same");
+		}
+		else
+		{
+			return true;
+		}	
+		
+	}
 		
 	
 }

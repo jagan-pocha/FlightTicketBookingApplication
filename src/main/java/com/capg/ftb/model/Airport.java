@@ -17,6 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.context.annotation.Configuration;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value="Airport Entity")
 @Entity
@@ -28,16 +29,19 @@ public class Airport {
 	@Id
 	@Size(min=3,message="code must be atleast 3 letters")
 	@NotNull(message="code cannot be bull")
+	@ApiModelProperty(notes = "Primary key", required = true, position=1)
 	private String airportCode;
 	
 	@Column
 	@Size(min=3,message="name must be atleast 3 letters")
 	@NotNull(message="code cannot be bull")
+	@ApiModelProperty(notes = "AirportName cannot be null and minimum three letters", required = false, position=2)
 	private String airportName;
 
 	@Column
 	@Size(min=3,message="location must be atleast 3 letters")
 	@NotNull(message="code cannot be bull")
+	@ApiModelProperty(notes = "AirportLocation cannot be null and minimum three letters", required = false, position=3)
 	private String airportLocation;
 
 	public Airport() {

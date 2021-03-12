@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.capg.ftb.model.Users;
 
 @Repository
-public interface IUsersDAO extends JpaRepository<Users,Integer>{
+public interface IUsersDAO extends JpaRepository<Users,BigInteger>{
 
 	Users findByUserName(String userName);
 	

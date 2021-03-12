@@ -46,7 +46,7 @@ public class FlightController {
 	
 	//Modify the details of a flight
 		@PutMapping(value="/modifyFlight/{flightNumber}")
-		public ResponseEntity<Flight> updateFlight(@PathVariable int flightNumber,@RequestBody Flight flight)
+		public ResponseEntity<Flight> updateFlight(@PathVariable BigInteger flightNumber,@Valid @RequestBody Flight flight)
 		{
 			Flight flight1=flightService.modifyFlight(flightNumber);
 			flight1.setSeatCapacity(flight.getSeatCapacity());
@@ -59,7 +59,7 @@ public class FlightController {
 		
 	//View the details of a flight specified by the flight number
 	@GetMapping(value="/viewFlight/{flightNumber}")
-	public ResponseEntity<Flight> viewFlight(@PathVariable int flightNumber)
+	public ResponseEntity<Flight> viewFlight(@PathVariable BigInteger flightNumber)
 	{
 		Flight flight=flightService.viewFlight(flightNumber);
 		return new ResponseEntity<Flight>(flight,HttpStatus.OK);
@@ -77,7 +77,7 @@ public class FlightController {
 	
 	// Removes a flight
 	@DeleteMapping(value="/deleteFlight/{flightNumber}")
-	public ResponseEntity<Flight> deleteFlight(@PathVariable int flightNumber)
+	public ResponseEntity<Flight> deleteFlight(@PathVariable BigInteger flightNumber)
 	{
 		Flight flight=flightService.deleteFlight(flightNumber);
 		return new ResponseEntity<Flight>(flight,HttpStatus.OK);

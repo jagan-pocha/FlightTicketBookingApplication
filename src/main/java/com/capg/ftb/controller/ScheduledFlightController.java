@@ -4,6 +4,7 @@
 package com.capg.ftb.controller;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -64,7 +65,7 @@ public class ScheduledFlightController {
 	//method to view the  scheduled Flight using scheduled Id
 	@ApiOperation(value = "To view a Scheduled Flight")
 	@GetMapping(value="/viewScheduledFlight/{scheduleFlightId}")
-	public ResponseEntity<ScheduledFlight> viewScheduledFlight(@PathVariable int scheduleFlightId)
+	public ResponseEntity<ScheduledFlight> viewScheduledFlight(@PathVariable BigInteger scheduleFlightId)
 	{
 		ScheduledFlight sFlight=scheduledFService.viewScheduledFlight(scheduleFlightId);
 		log.info("viewed a Scheduled  Flight");
@@ -75,10 +76,11 @@ public class ScheduledFlightController {
 	//method to modify the scheduled flight
 	@ApiOperation(value = "modify a Scheduled a Flight")
 	@PutMapping(value="/modifyScheduledFlight/{scheduleFlightId}")
-	public ResponseEntity<ScheduledFlight> modifycheduledFlight(@Valid @RequestBody ScheduledFlight scheduledFlight,@PathVariable int scheduleFlightId)
+	public ResponseEntity<ScheduledFlight> modifycheduledFlight(@Valid @RequestBody ScheduledFlight scheduledFlight,@PathVariable BigInteger scheduleFlightId)
 	{
 		ScheduledFlight sFlight=scheduledFService.modifyScheduledFlight(scheduledFlight,scheduleFlightId);
 		ScheduledFlight sFlight1=scheduledFService.addScheduledFlight(sFlight);
+		scheduledFService.removeScheduledFlight(scheduleFlightId); 
 		log.info("modified a Scheduled  Flight");
 		return new ResponseEntity<ScheduledFlight>(sFlight1,HttpStatus.OK);
 	}

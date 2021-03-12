@@ -4,6 +4,7 @@
 
 package com.capg.ftb.service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import com.capg.ftb.model.Booking;
@@ -13,17 +14,17 @@ public interface IFlightBookingService {
 	
 	public Booking addBooking(Booking booking);
 	
-	public Booking modifyBooking(int bookingId);
+	public Booking modifyBooking(BigInteger bookingId);
 	 
-	public Booking viewBooking(int bookingId);
+	public Booking viewBooking(BigInteger bookingId);
 	
 	public List<Booking> viewAllBookings();
 	
-	public Booking deleteBooking(int bookingId);
+	public Booking deleteBooking(BigInteger bookingId);
 	
-	public Booking validateBooking(int boookingId);
+	public Booking validateBooking(BigInteger boookingId);
 	
-	public Booking getById(int bookingId);
+	public Booking getById(BigInteger bookingId);
 	
 	public List<ScheduledFlight> searchForScheduledFlight(String srcAirport,String dstnAirport,String deptDate);
 

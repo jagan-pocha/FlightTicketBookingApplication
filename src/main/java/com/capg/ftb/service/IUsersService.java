@@ -9,13 +9,13 @@ public interface IUsersService {
 
 public Users addUser(Users user);
 	
-	public Users viewUser(int userId);
+	public Users viewUser(BigInteger userId);
 	
 	public List<Users> viewAllUser();
 	
-	public Users updateUser(int userId);
+	public Users updateUser(Users newUser,BigInteger userId);
 	
-	public Users deleteUser(int userId);
+	public Users deleteUser(BigInteger userId);
 	
 	public Users getByName(String userName);
 	

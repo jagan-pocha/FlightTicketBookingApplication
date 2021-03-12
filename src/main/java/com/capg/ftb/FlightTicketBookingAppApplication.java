@@ -11,7 +11,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @Validated
-@EnableSwagger2
 public class FlightTicketBookingAppApplication {
 
 	//private final static Logger log = LogManager.getLogger(FlightTicketBookingAppApplication.class);

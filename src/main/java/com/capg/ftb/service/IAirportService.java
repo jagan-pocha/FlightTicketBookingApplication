@@ -12,7 +12,5 @@ public interface IAirportService {
 
 	public Airport viewAirport(String airportCode);
 
-	
-
 	public Airport addAirport(Airport airport);
 }

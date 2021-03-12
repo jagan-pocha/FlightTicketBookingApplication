@@ -44,21 +44,21 @@ public class MainController {
 	@PostMapping(value="/addUser")
 	public ResponseEntity<Users> addUser(@Valid @RequestBody Users newUser) {
 
+		
 		Users user1=userService.addUser(newUser);
 		return new ResponseEntity<Users>(user1,HttpStatus.CREATED);
 	}
 	
-	@PutMapping("/updateUser")
-	@ExceptionHandler(UserNotFoundException.class)
-	public ResponseEntity<Users> updateUser(@RequestBody int updateUser) {
+	@PutMapping("/updateUser/{userId}")
+	public ResponseEntity<Users> updateUser(@RequestBody Users newUser,@PathVariable BigInteger userId) {
 
-		Users user2=userService.updateUser(updateUser);
-		return new ResponseEntity<Users>(user2,HttpStatus.OK);
+		Users user2=userService.updateUser(newUser,userId);
+		
+		return new ResponseEntity<Users>(userService.addUser(user2),HttpStatus.OK);
 	}
 	
-	@GetMapping("/viewUser/{id}")
-	@ExceptionHandler(UserNotFoundException.class)
-	public ResponseEntity<Users> viewUser(@PathVariable("id") int userId) {
+	@GetMapping("/viewUser/{userId}")
+	public ResponseEntity<Users> viewUser(@PathVariable("userId") BigInteger userId) {
 		
 		Users user3=userService.viewUser(userId);
 		return new ResponseEntity<Users>(user3,HttpStatus.OK);
@@ -70,11 +70,10 @@ public class MainController {
 		return userService.viewAllUser();
 	}
 	
-	@DeleteMapping("/deleteUser/{id}")
-	@ExceptionHandler(UserNotFoundException.class)
-	public ResponseEntity<Users> deleteUser(@PathVariable("id") int userId) {
+	@DeleteMapping("/deleteUser/{userId}")
+	public ResponseEntity<Users> deleteUser(@PathVariable("userId") BigInteger userId) {
 
-		Users user4=userService.viewUser(userId);
+		Users user4=userService.deleteUser(userId);
 		return new ResponseEntity<Users>(user4,HttpStatus.OK);
 		
 		

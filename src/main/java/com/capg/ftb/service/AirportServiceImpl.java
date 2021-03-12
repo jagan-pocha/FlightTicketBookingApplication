@@ -48,6 +48,7 @@ public class AirportServiceImpl implements IAirportService {
 	@Override
 	public Airport addAirport(Airport airport) {
 
+		
 		Optional<Airport> findById = airportDao.findById(airport.getAirportCode());
 		log.info("Service Triggered");
 		if (!findById.isPresent()) {

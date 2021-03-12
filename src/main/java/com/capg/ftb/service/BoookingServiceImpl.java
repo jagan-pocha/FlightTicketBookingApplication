@@ -4,6 +4,7 @@
 
 package com.capg.ftb.service;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -38,9 +39,7 @@ public class BoookingServiceImpl implements IFlightBookingService{
 	public Booking addBooking(Booking booking) {
 		// TODO Auto-generated method stub
 		
-		Optional<Users> optional=usersDao.findById(booking.getUserId());
-		Users user=(Users)optional.orElseThrow(() ->new UserNotFoundException("User Not Found with the given ID : "+booking.getUserId()));
-		
+	
 		Optional<ScheduledFlight> optional1=scheduleFilghtDao.findById(booking.getScheduledFlightId());
 		ScheduledFlight scheduledFlight=(ScheduledFlight)optional1.orElseThrow(() ->new FlightNotFoundException("Scheduled Flight Not Found with the given ID : "+booking.getScheduledFlightId()));
 		
@@ -66,13 +65,13 @@ public class BoookingServiceImpl implements IFlightBookingService{
 	}
 
 	@Override
-	public Booking modifyBooking(int bookingId) {
+	public Booking modifyBooking(BigInteger bookingId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Booking viewBooking(int bookingId) {
+	public Booking viewBooking(BigInteger bookingId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -84,19 +83,19 @@ public class BoookingServiceImpl implements IFlightBookingService{
 	}
 
 	@Override
-	public Booking deleteBooking(int bookingId) {
+	public Booking deleteBooking(BigInteger bookingId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Booking validateBooking(int boookingId) {
+	public Booking validateBooking(BigInteger boookingId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Booking getById(int bookingId) {
+	public Booking getById(BigInteger bookingId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -108,7 +107,7 @@ public class BoookingServiceImpl implements IFlightBookingService{
 	}
 	
 	
-	public void modifyScheduledFlight(int scheduledFlightId,int passengersCount) {
+	public void modifyScheduledFlight(BigInteger scheduledFlightId,int passengersCount) {
 		// TODO Auto-generated method stub
 		
 		Optional<ScheduledFlight> optional=scheduleFilghtDao.findById(scheduledFlightId);
