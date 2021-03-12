@@ -13,12 +13,15 @@ import javax.validation.constraints.Size;
 
 import com.sun.istack.NotNull;
 
+import io.swagger.annotations.ApiModel;
+
 import java.math.BigInteger;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 
 @Entity
+@ApiModel
 public class ScheduledFlight {
 
 	@Id

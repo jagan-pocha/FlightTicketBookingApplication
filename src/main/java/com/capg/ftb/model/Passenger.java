@@ -6,10 +6,13 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import io.swagger.annotations.ApiModel;
+
 import java.math.BigInteger;
 
 @Entity
 @Table(name = "PASSENGERS")
+@ApiModel
 public class Passenger {
 
 	@Id

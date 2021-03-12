@@ -20,9 +20,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import io.swagger.annotations.ApiModel;
+
 
 @Entity
 @Table(name="Flight")
+@ApiModel
 public class Flight 
 {
 	

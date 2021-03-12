@@ -4,6 +4,7 @@
 package com.capg.ftb.service;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.mockito.Mockito.when;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -20,39 +21,38 @@ import com.capg.ftb.model.Airport;
 public class AirportServiceTests {
 
 	
-	@MockBean
-	private IAirportDAO airportDao;
-	
+
 	@Autowired
 	private IAirportService airportService;
 
-	
+	@MockBean
+	private IAirportDAO airportdao;
+
 	// Test method to test functionality of Add Airport Method.
 	@Test
 	public void testAddAirport() {
-		Airport airport=new Airport("1", "Kempegowda", "Bangalore");
-		when(airportDao.save(airport)).thenReturn(airport);
-		
-		assertEquals(airport,airportService.addAirport(airport));
+		Airport airport = new Airport("001", "Bangalore", "Kempegowda");
+		when(airportdao.save(airport)).thenReturn(airport);
+		assertEquals(airport, airportService.addAirport(airport));
+
 	}
-	
+
 	// Test method to test functionality of view Airport by code Method.
 	@Test
 	public void testViewAirport() {
-		Airport airport = new Airport("1", "Kempegowda", "Bangalore");
-		when(airportDao.save(airport)).thenReturn(airport);
-		Airport airport1=airportDao.save(airport);
-		Airport airport2= airportService.viewAirport(airport.getAirportCode());
-		assertEquals(airport1,airport2);
-		
+		Airport airport = new Airport("001", "Bangalore", "Kempegowda");
+		when(airportdao.save(airport)).thenReturn(airport);
+		assertEquals(airport.getAirportName(), airportService.viewAirport("1").getAirportName());
+
 	}
 
 	// Test method to test functionality of View all Airports Method.
 	@Test
 	public void TestListAllAirports() {
-		Airport airport = new Airport("2", "Kempegowda", "Bangalore");
-		List<Airport> AirportList = airportDao.findAll();
+		Airport airport = new Airport("001", "Bangalore", "Kempegowda");
+		List<Airport> AirportList = airportdao.findAll();
 		assertEquals(AirportList, airportService.viewAllAirport());
 	}
+	
 
 }

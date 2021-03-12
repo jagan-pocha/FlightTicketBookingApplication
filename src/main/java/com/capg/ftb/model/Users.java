@@ -13,7 +13,10 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
+@ApiModel
 public class Users {
 
 	

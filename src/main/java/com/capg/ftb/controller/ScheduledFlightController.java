@@ -1,3 +1,6 @@
+/*
+ * Jagan Mohan
+ */
 package com.capg.ftb.controller;
 
 import java.util.List;
@@ -27,6 +30,9 @@ public class ScheduledFlightController {
 	@Autowired
 	private ScheduledFlightServiceImpl scheduledFService;
 	
+	
+	//Method to schedule the Flight
+	
 	@PostMapping(value="/addScheduledFlight")
 	public ResponseEntity<ScheduledFlight> addScheduledFlight(@Valid @RequestBody ScheduledFlight scheduledFlight)
 	{
@@ -35,6 +41,7 @@ public class ScheduledFlightController {
 		return new ResponseEntity<ScheduledFlight>(scheduledFlight1,HttpStatus.CREATED);
 	}
 	
+	// mathod to view all scheduled Flights
 	
 	@GetMapping(value="/viewAllScheduledFlights")
 	public ResponseEntity<List<ScheduledFlight>> viewAllScheduledFlights()
@@ -42,6 +49,8 @@ public class ScheduledFlightController {
 		List<ScheduledFlight> allSFlights=scheduledFService.viewAllScheduledFlights();
 		return new ResponseEntity<List<ScheduledFlight>>(allSFlights,HttpStatus.OK);
 	}
+	
+	//method to view the  scheduled Flight using scheduled Id
 	
 	@GetMapping(value="/viewScheduledFlight/{scheduleFlightId}")
 	public ResponseEntity<ScheduledFlight> viewScheduledFlight(@PathVariable int scheduleFlightId)
@@ -51,6 +60,8 @@ public class ScheduledFlightController {
 	}
 	
 
+	//method to modify the scheduled flight
+	
 	@PutMapping(value="/modifyScheduledFlight/{scheduleFlightId}")
 	public ResponseEntity<ScheduledFlight> mpdifycheduledFlight(@PathVariable int scheduleFlightId)
 	{
@@ -60,7 +71,8 @@ public class ScheduledFlightController {
 		return new ResponseEntity<ScheduledFlight>(sFlight1,HttpStatus.OK);
 	}
 	
-
+	//search the flight based on source ,detination and travelling date
+	
 	@GetMapping(value="/searchScheduledFlight/{srcAirport}/{dstnAirport}/{deptDate}")
 	
 	public ResponseEntity<List<ScheduledFlight>> searchScheduledFlight(@PathVariable String srcAirport,@PathVariable String dstnAirport,@PathVariable String deptDate)

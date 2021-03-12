@@ -35,47 +35,25 @@ public class AirportController {
 	@Autowired
 	private IAirportService airportService;
 
-	@PostMapping(value="/addAirport")	
-	public ResponseEntity<Airport> addAirport(@Valid @RequestBody Airport airport) {
-		
-		Airport airport1=airportService.addAirport(airport);
-		return new ResponseEntity<Airport>(airport1,HttpStatus.CREATED);
+	@PostMapping(value = "/addAirport")
+	public ResponseEntity<Airport> addAirport(@RequestBody Airport airport) {
+
+		Airport airport1 = airportService.addAirport(airport);
+		return new ResponseEntity<Airport>(airport1, HttpStatus.CREATED);
 	}
 
-	@GetMapping(value="/viewAllAirports")
+	@GetMapping(value = "/viewAllAirports")
 	public ResponseEntity<List<Airport>> viewAllAirport() {
-	    List<Airport> airportsList=airportService.viewAllAirport();
-	    return new ResponseEntity<List<Airport>>(airportsList,HttpStatus.OK);
+		List<Airport> airportsList = airportService.viewAllAirport();
+		return new ResponseEntity<List<Airport>>(airportsList, HttpStatus.OK);
 	}
-	
-	
-	@GetMapping(value="/viewAirport/{airpostCode}")
-	public ResponseEntity<Airport> viewAirport(@PathVariable String airportCode)
-	{
-		Airport airport=airportService.viewAirport(airportCode);
-		return new ResponseEntity<Airport>(airport,HttpStatus.OK);
-		
+
+	@GetMapping(value = "/viewAirport/{airportCode}")
+	public ResponseEntity<Airport> viewAirport(@PathVariable String airportCode) {
+		Airport airport = airportService.viewAirport(airportCode);
+		return new ResponseEntity<Airport>(airport, HttpStatus.OK);
+
 	}
 	
 	
 }
-
-/*
- * @PostMapping("/addAirport")
- * 
- * @ExceptionHandler(RecordAlreadyPresentException.class) public void
- * addAirport(@RequestBody Airport airport) {
- * airportService.addAirport(airport); }
- * 
- * @PutMapping("/updateAirport")
- * 
- * @ExceptionHandler(RecordNotFoundException.class) public void
- * modifyAirport(@RequestBody Airport airport) {
- * airportService.modifyAirport(airport); }
- * 
- * @DeleteMapping("/deleteAirport/{id}")
- * 
- * @ExceptionHandler(RecordNotFoundException.class) public void
- * removeAirport(@PathVariable("id") String airportCode) {
- * airportService.removeAirport(airportCode); } }
- */

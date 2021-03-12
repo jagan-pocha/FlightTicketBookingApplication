@@ -1,5 +1,8 @@
-package com.capg.ftb.service;
+/*
+ * Jagan mohan
+ */
 
+package com.capg.ftb.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,22 +35,29 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 	@Autowired
 	private FlightDAO flightDao;
 	
+	//Mathod to add Scheduled a flight
+	
 	@Override
 	public ScheduledFlight addScheduledFlight(ScheduledFlight scheduledFlight) {
 		// TODO Auto-generated method stub
 		
+		//Condition to check source airport is available or not 
 		
 		Optional<Airport> optional=airportDao.findById(scheduledFlight.getSchedule().getSrcAirport());
 		//System.out.println(scheduledFlight.getSchedule().getSrcAirport());
 		Airport airport=optional.orElseThrow(() ->new AirportNotFoundException("Source Airport Not Existed with the Code: "+scheduledFlight.getSchedule().getSrcAirport()));
 		
+		//Condition to check destination airport is available or not 
+		
 		Optional<Airport> optional1=airportDao.findById(scheduledFlight.getSchedule().getDstnAirport());
 		Airport airport1=optional1.orElseThrow(()->new AirportNotFoundException("Destination Airport Not Existed with the Code: "+scheduledFlight.getSchedule().getDstnAirport()));
 
-
+		//Condition to check flight is available or not 
+		
 		Optional<Flight> optional2=flightDao.findById(scheduledFlight.getFlight());
 		Flight flight=optional2.orElseThrow(()->new FlightNotFoundException("Flight Not Existed with the Id : "+scheduledFlight.getFlight()));
 
+		//Condition to check seating capacity 
 		
 		if(flight.getSeatCapacity()<scheduledFlight.getAvailableSeats())
 		{
@@ -63,7 +73,8 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 			ScheduledFlight sdFlight=list.get(i);
 			if(sdFlight.getFlight()==scheduledFlight.getFlight())
 			{
-				System.out.println(sdFlight.getSchedule().getArrDate());
+				//Check whether the flight is available to schedule on this day
+				
 				if(isItScheduled(scheduledFlight.getSchedule().getArrDate(),sdFlight.getSchedule().getArrDate()))
 				{
 					flag=1;
@@ -89,7 +100,7 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		}
 	}
 	
-	
+	//Method to check flight is already scheduled
 	
 	public boolean isItScheduled(String str,String str1)
 	{
@@ -119,7 +130,7 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		}
 	}
 	
-	
+	//Method to modify the scheduled flight
 
 	@Override
 	public ScheduledFlight modifyScheduledFlight(int scheduledFlightId) {
@@ -132,7 +143,8 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		return sFlight;
 	}
 
-
+	//method to View all scheduled flights
+	
 	@Override
 	public List<ScheduledFlight> viewAllScheduledFlights() {
 		// TODO Auto-generated method stub
@@ -140,6 +152,7 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		return allSFlights;
 	}
 
+	///method to View a scheduled flight based on id
 	
 	@Override
 	public ScheduledFlight viewScheduledFlight(int scheduledFlightId) {
@@ -150,7 +163,7 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		return sFlight;
 	}
 
-
+	//method to remove the scheduled flight
 
 	@Override
 	public void removeScheduledFlight(int scheduleFlightId) {
@@ -161,7 +174,7 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		
 	}
 
-
+	//list the scheduled flight based on source and destination and departure date
 
 	@Override
 	public List<ScheduledFlight> searchScheduledFlight(String srcAirport, String destAirport,String deptDate) {

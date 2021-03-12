@@ -15,8 +15,11 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
 @Table(name = "Airport")
+@ApiModel
 public class Airport {
 	
 	

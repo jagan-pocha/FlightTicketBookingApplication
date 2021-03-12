@@ -12,9 +12,7 @@ public interface IAirportService {
 
 	public Airport viewAirport(String airportCode);
 
-	public Airport modifyAirport(Airport airport);
-
-	public String removeAirport(String airportCode);
+	
 
 	public Airport addAirport(Airport airport);
 }

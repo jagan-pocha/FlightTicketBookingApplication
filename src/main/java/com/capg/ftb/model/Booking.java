@@ -22,8 +22,11 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
 @Table(name="Booking")
+@ApiModel
 public class Booking {
 	
 	@Id

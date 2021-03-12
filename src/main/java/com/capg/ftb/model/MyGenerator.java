@@ -9,6 +9,9 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel
 public class MyGenerator implements IdentifierGenerator{
 
 	@Override
