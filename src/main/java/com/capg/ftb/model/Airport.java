@@ -14,12 +14,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.context.annotation.Configuration;
 
 import io.swagger.annotations.ApiModel;
 
+@ApiModel(value="Airport Entity")
 @Entity
 @Table(name = "Airport")
-@ApiModel
 public class Airport {
 	
 	

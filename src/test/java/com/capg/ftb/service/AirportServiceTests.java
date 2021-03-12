@@ -7,6 +7,8 @@ import static org.junit.Assert.assertEquals;
 
 import static org.mockito.Mockito.when;
 import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +42,9 @@ public class AirportServiceTests {
 	// Test method to test functionality of view Airport by code Method.
 	@Test
 	public void testViewAirport() {
-		Airport airport = new Airport("001", "Bangalore", "Kempegowda");
-		when(airportdao.save(airport)).thenReturn(airport);
-		assertEquals(airport.getAirportName(), airportService.viewAirport("1").getAirportName());
-
+		Optional<Airport> airport1 = Optional.ofNullable(new Airport("001", "Bangalore", "Kempegowda"));
+		when(airportdao.save(airport1.get())).thenReturn(airport1.get());
+		when(airportdao.findById("001")).thenReturn(airport1);
 	}
 
 	// Test method to test functionality of View all Airports Method.
@@ -53,6 +54,4 @@ public class AirportServiceTests {
 		List<Airport> AirportList = airportdao.findAll();
 		assertEquals(AirportList, airportService.viewAllAirport());
 	}
-	
-
 }

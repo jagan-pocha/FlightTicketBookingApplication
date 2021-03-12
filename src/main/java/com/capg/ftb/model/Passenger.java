@@ -1,3 +1,6 @@
+/*
+ * Mary Jennifer
+ */
 package com.capg.ftb.model;
 
 import javax.persistence.*;

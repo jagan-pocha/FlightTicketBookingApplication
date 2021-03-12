@@ -1,3 +1,6 @@
+/*
+ * Jagan mohan
+ */
 package com.capg.ftb.service;
 
 import java.util.List;
@@ -8,7 +11,7 @@ public interface IScheduledFlightService {
 
 	public ScheduledFlight addScheduledFlight(ScheduledFlight scheduledFlight);
 
-	public ScheduledFlight modifyScheduledFlight(int scheduleFlightId);
+	public ScheduledFlight modifyScheduledFlight(ScheduledFlight scheduledFlight,int scheduleFlightId);
 
 	public void removeScheduledFlight(int scheduleFlightId);// throws RecordNotFoundException;
 

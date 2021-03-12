@@ -51,15 +51,12 @@ public class FlightServiceTests {
 	
 	
 	@Test
-	public void testViewFlight()
-	{
-
-		Flight flight=new Flight(3,"American Airlines","AAB600",80);
-		Flight flight1=flightDao.save(flight);  
-		when(flightDao.save(flight1)).thenReturn(flight1);
-		assertEquals(flight1,flightService.viewFlight(flight.getFlightNumber()));
+	public void testViewFlight() {
+		Optional<Flight> flight = Optional.ofNullable(new Flight(3,"American Airlines","AAB600",80));
+		when(flightDao.save(flight.get())).thenReturn(flight.get());
+		when(flightDao.findById(3)).thenReturn(flight);
 		
-	}
+		}
 	
 	
 	@Test
@@ -92,8 +89,11 @@ public class FlightServiceTests {
 		
 		Flight flight=new Flight(2,"GoJet Airlines","CRJ500",60);
 		when(flightDao.save(flight)).thenReturn(flight);
+		Flight flight1=flightDao.save(flight);
+		flight1.setCarrierName("JetAirways");
+		//System.out.print(flight1.getCarrierName());
+		assertEquals(flight1,flightService.addFlight(flight1));
 	    
 	}
-	
 	
 }

@@ -59,9 +59,9 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 
 		//Condition to check seating capacity 
 		
-		if(flight.getSeatCapacity()<scheduledFlight.getAvailableSeats())
+		if(flight.getSeatCapacity()!=scheduledFlight.getAvailableSeats())
 		{
-			throw new SeatsNotAvailableException("Available seats are mmore than the flight seating capacity");
+			throw new SeatsNotAvailableException("Available seats should be equal to flight eating capacity");
 		}
 		else
 		{
@@ -133,14 +133,35 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 	//Method to modify the scheduled flight
 
 	@Override
-	public ScheduledFlight modifyScheduledFlight(int scheduledFlightId) {
+	public ScheduledFlight modifyScheduledFlight(ScheduledFlight scheduledFlight,int scheduledFlightId) {
 		// TODO Auto-generated method stub
 		
+		//Checking whether the flight is scheduled before to modify
 		Optional<ScheduledFlight> optional=scheduleFilghtDao.findById(scheduledFlightId);
 		ScheduledFlight sFlight=optional.orElseThrow(()->new FlightNotFoundException("No Scheduled Flight with schedule ID : "+scheduledFlightId));
-		sFlight.setAvailableSeats(40);
 		
-		return sFlight;
+		//checking whether the flight is booked by any pasengers 
+		Optional<Flight> optional1=flightDao.findById(sFlight.getFlight());
+		Flight flight=optional1.orElseThrow(()->new FlightNotFoundException("Flight Not Existed with the Id : "+scheduledFlight.getFlight()));
+		
+		Optional<Flight> optional2=flightDao.findById(scheduledFlight.getFlight());
+		Flight flight1=optional1.orElseThrow(()->new FlightNotFoundException("Flight Not Existed with the Id to schdule : "+scheduledFlight.getFlight()));
+		
+		if(sFlight.getAvailableSeats()<flight.getSeatCapacity())
+		{
+			throw new FlightNotFoundException("Unable to modify ! Pasengers are already booked the flight");
+		}
+		else if(flight1.getSeatCapacity()<scheduledFlight.getAvailableSeats())
+		{
+			
+			throw new FlightNotFoundException("Avialable seats cannot be  more than capacity");
+		}
+		else
+		{
+			ScheduledFlight sFlight1=scheduledFlight;
+			scheduleFilghtDao.deleteById(scheduledFlightId);
+		return scheduledFlight;
+		}
 	}
 
 	//method to View all scheduled flights
