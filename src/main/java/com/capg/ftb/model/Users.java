@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -19,7 +20,7 @@ import io.swagger.annotations.ApiModel;
 @ApiModel
 public class Users {
 
-	
+
 	@Id
  	@GeneratedValue(generator = "IdGenerator")
 	@GenericGenerator(name = "IdGenerator",strategy = "com.capg.ftb.model.MyGenerator")	
@@ -38,10 +39,13 @@ public class Users {
 	private String password;
 	
 	@Column
-	@Pattern(regexp="[1-9][0-9]{9}",message="Number must not start with 0")
+	@NotNull(message = "mobile number can not be null")
+	@Pattern(regexp="(0/91)?[7-9][0-9]{9}",message="Number must not start with 0")
 	private String mobileNumber;
 	
 	@Column
+	@NotNull(message = "email can not be null")
+	@Pattern(regexp = "^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$", message = "Invalid email address")
 	private String email;
 	
 	
@@ -109,7 +113,6 @@ public class Users {
 		this.mobileNumber = mobileNumber;
 	}
 
-	
 	
 
 }

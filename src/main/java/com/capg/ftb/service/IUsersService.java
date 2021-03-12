@@ -7,19 +7,18 @@ import com.capg.ftb.model.Users;
 
 public interface IUsersService {
 
-	public Users addUser(Users user);
+public Users addUser(Users user);
 	
 	public Users viewUser(int userId);
 	
-	public List<Users> viewUser();
+	public List<Users> viewAllUser();
 	
-	public Users updateUser(Users user);
+	public Users updateUser(int userId);
 	
-	public Users deleteUser(Users user);
+	public Users deleteUser(int userId);
 	
 	public Users getByName(String userName);
 	
 	public Users validateUser(Users user);
-	
 	
 }

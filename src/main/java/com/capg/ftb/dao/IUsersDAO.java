@@ -12,4 +12,5 @@ public interface IUsersDAO extends JpaRepository<Users,Integer>{
 
 	Users findByUserName(String userName);
 	
+	
 }

@@ -2,16 +2,19 @@ package com.capg.ftb.service;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.capg.ftb.dao.IUsersDAO;
+import com.capg.ftb.exception.UserNotFoundException;
 import com.capg.ftb.model.Users;
 
 
 @Service
 public class UsersServiceImpl implements IUsersService{
+
 
 	@Autowired
 	private IUsersDAO usersDao;
@@ -36,25 +39,34 @@ public class UsersServiceImpl implements IUsersService{
 	@Override
 	public Users viewUser(int userId) {
 		// TODO Auto-generated method stub
-		return null;
+		Optional<Users> optional=usersDao.findById(userId);
+		Users user1=optional.orElseThrow(()->new UserNotFoundException("User is Not Existing with the id : "+userId));
+		return user1;
+	}
+	
+
+	@Override
+	public List<Users> viewAllUser() {
+		// TODO Auto-generated method stub
+		List<Users> UserList=(List<Users>) usersDao.findAll();
+		return UserList;
 	}
 
 	@Override
-	public List<Users> viewUser() {
+	public Users updateUser(int userId) {
 		// TODO Auto-generated method stub
-		return null;
+		Optional<Users> optional=usersDao.findById(userId);
+		Users user4=optional.orElseThrow(()->new UserNotFoundException("User Not Existed with the id : "+userId));
+		return user4;
 	}
 
 	@Override
-	public Users updateUser(Users user) {
+	public Users deleteUser(int userId) {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Users deleteUser(Users user) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Users> optional=usersDao.findById(userId);
+		Users user1=optional.orElseThrow(()->new UserNotFoundException("User Not exisited with ID: " +userId));
+		usersDao.deleteById(userId);
+		return user1;
 	}
 
 	@Override
