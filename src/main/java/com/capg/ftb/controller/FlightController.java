@@ -25,9 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capg.ftb.model.Flight;
 import com.capg.ftb.service.IFlightService;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping(value="/ftb")
 @Validated
+@Api
 public class FlightController {
 	
 	@Autowired

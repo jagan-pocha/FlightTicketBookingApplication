@@ -25,9 +25,12 @@ import com.capg.ftb.model.Users;
 import com.capg.ftb.service.IFlightService;
 import com.capg.ftb.service.IUsersService;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping(value="/ftb")
 @Validated
+@Api
 public class MainController {
 
 	@Autowired

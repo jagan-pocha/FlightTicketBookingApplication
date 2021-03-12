@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'    
+    compile('org.springframework.boot:spring-boot-starter-web')   
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
@@ -34,12 +34,8 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
 
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.1'
- 
- 
-	implementation "io.springfox:springfox-boot-starter:3.0.0"
-    compile "io.springfox:springfox-swagger-ui:3.0.0"
-    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
-
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
 }
 
 

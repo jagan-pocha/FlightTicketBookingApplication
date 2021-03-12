@@ -22,7 +22,7 @@ public class SwaggerConfiguration {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
 				.paths(PathSelectors.any())
-				.apis(RequestHandlerSelectors.basePackage("com.capg.ftb"))
+				.apis(RequestHandlerSelectors.any())
 				.build()
 				.apiInfo(getApiInfo());
 	}

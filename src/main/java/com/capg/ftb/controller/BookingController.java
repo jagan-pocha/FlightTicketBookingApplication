@@ -22,8 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capg.ftb.model.Booking;
 import com.capg.ftb.service.BoookingServiceImpl;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping(value="/ftb")
+@Api
 public class BookingController {
 	
 	@Autowired
