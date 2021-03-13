@@ -26,13 +26,13 @@ import com.capg.ftb.model.ScheduledFlight;
 @SpringBootTest
 public class ScheduledFlightServiceTests {
 
-	@MockBean
+	@Autowired
 	private FlightDAO flightDao;
 
-	@MockBean
+	@Autowired
 	private IScheduleFlightDAO scheduleFDao;
 
-	@MockBean
+	@Autowired
 	private IAirportDAO airportDao;
 
 	@Autowired
@@ -41,17 +41,24 @@ public class ScheduledFlightServiceTests {
 	@Test
 	public void testaddScheduledFlight() {
 		
-		BigInteger bI=new BigInteger("1");
-		Airport a=new Airport("IDA1RGIA", "RGIA", "Hyderabad");
-		when(airportDao.save(a)).thenReturn(a);
+		BigInteger bI=new BigInteger("555020");
+		Airport a=new Airport("testA1", "RGIA", "Hyderabad");
+		airportDao.save(a);
 	
-		Airport a1=new Airport("IDA1KGIA", "KGIA", "Bengaluru");
-		when(airportDao.save(a1)).thenReturn(a1);
+		Airport a1=new Airport("testA2", "KGIA", "Bengaluru");
+		airportDao.save(a1);
 		
-		Flight f =new Flight(bI, "GoJet Airlines", "GJ200", 60);
-		when(flightDao.save(f)).thenReturn(f);
+		Flight flight=new Flight(bI,"GoJet Airlines", "GJ200", 60);
 		
+		Schedule schedule=new Schedule(new BigInteger("999020"),"testA1","testA2","03-12-2021","03-13-2021","10:00","12:00");
 		
+		ScheduledFlight sFlight=new ScheduledFlight(bI,flight,60,schedule,500.0);
+		ScheduledFlight r1=scheduleFDao.save(sFlight);
+
+     	ScheduledFlight r2=scheduleFService.addScheduledFlight(sFlight);
+//		System.out.println(test.getScheduleFlightId());
+//		System.out.println(test1.getScheduleFlightId());
+		assertEquals(r1,r2);
 
 	}
 
@@ -60,13 +67,15 @@ public class ScheduledFlightServiceTests {
 	{
 		BigInteger bI=new BigInteger("1");
 		Airport a=new Airport("IDA1RGIA", "RGIA", "Hyderabad");
-		when(airportDao.save(a)).thenReturn(a);
+		//when(airportDao.save(a)).thenReturn(a);
 	
 		Airport a1=new Airport("IDA1KGIA", "KGIA", "Bengaluru");
-		when(airportDao.save(a1)).thenReturn(a1);
+	//	when(airportDao.save(a1)).thenReturn(a1);
 		
 		Flight f =new Flight(bI, "GoJet Airlines", "GJ200", 60);
-		when(flightDao.save(f)).thenReturn(f);
+		//when(flightDao.save(f)).thenReturn(f);
+		
+		
 	
 	}
 	

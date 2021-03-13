@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,8 @@ import io.swagger.annotations.Api;
 @Api
 public class MainController {
 
+	private static final Logger log =LogManager.getLogger(MainController.class);
+	
 	@Autowired
 	private IUsersService usersService;
 	
@@ -46,6 +50,7 @@ public class MainController {
 
 		
 		Users user1=userService.addUser(newUser);
+		log.info("Added User ");
 		return new ResponseEntity<Users>(user1,HttpStatus.CREATED);
 	}
 	
@@ -53,7 +58,7 @@ public class MainController {
 	public ResponseEntity<Users> updateUser(@RequestBody Users newUser,@PathVariable BigInteger userId) {
 
 		Users user2=userService.updateUser(newUser,userId);
-		
+		log.info("Updated User ");
 		return new ResponseEntity<Users>(userService.addUser(user2),HttpStatus.OK);
 	}
 	
@@ -61,12 +66,14 @@ public class MainController {
 	public ResponseEntity<Users> viewUser(@PathVariable("userId") BigInteger userId) {
 		
 		Users user3=userService.viewUser(userId);
+		log.info("Viewed details");
 		return new ResponseEntity<Users>(user3,HttpStatus.OK);
 	}
 	
 	@GetMapping("/viewAllUser")
 	public Iterable<Users> viewAllUser() {
 
+		log.info("viewed all users");
 		return userService.viewAllUser();
 	}
 	
@@ -74,6 +81,7 @@ public class MainController {
 	public ResponseEntity<Users> deleteUser(@PathVariable("userId") BigInteger userId) {
 
 		Users user4=userService.deleteUser(userId);
+		log.info("Deleted User ");
 		return new ResponseEntity<Users>(user4,HttpStatus.OK);
 		
 		
@@ -84,6 +92,7 @@ public class MainController {
 	{
 	 
        Users user1=userService.validateUser(user);
+       log.info("Validating  User Details");
 		if(user1!=null)
 		{
 		return new ResponseEntity<String>("User ID: "+user.getUserId()+" with User Name: "+user.getUserName()+" is registerd.",HttpStatus.OK);

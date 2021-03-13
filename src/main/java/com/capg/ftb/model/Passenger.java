@@ -64,11 +64,11 @@ public class Passenger {
 		this.passengerAge = passengerAge;
 	}
 
-	public @Size(min = 12, max = 12) BigInteger getPassengerUIN() {
+	public  BigInteger getPassengerUIN() {
 		return passengerUIN;
 	}
 
-	public void setPassengerUIN(@Size(min = 12, max = 12) BigInteger passengerUIN) {
+	public void setPassengerUIN(BigInteger passengerUIN) {
 		this.passengerUIN = passengerUIN;
 	}
 
@@ -84,7 +84,7 @@ public class Passenger {
 		super();
 	}
 	
-	public Passenger(BigInteger pnrNumber, String passengerName,int passengerAge, @Size(min = 12, max = 12) BigInteger passengerUIN, Double Luggage) {
+	public Passenger(BigInteger pnrNumber, String passengerName,int passengerAge, BigInteger passengerUIN, Double Luggage) {
 		super();
 		this.pnrNumber = pnrNumber;
 		this.passengerName = passengerName;

@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,8 @@ import io.swagger.annotations.Api;
 @Api
 public class FlightController {
 	
+	private static final Logger log =LogManager.getLogger(FlightController.class);
+	
 	@Autowired
 	private IFlightService flightService;
 	
@@ -41,6 +45,7 @@ public class FlightController {
 	public ResponseEntity<Flight> addFlight(@Valid @RequestBody Flight flight)
 	{
 		Flight flight1=flightService.addFlight(flight);
+		log.info("Added a flight");
 		return new ResponseEntity<Flight>(flight1,HttpStatus.CREATED);
 	}
 	
@@ -49,10 +54,13 @@ public class FlightController {
 		public ResponseEntity<Flight> updateFlight(@PathVariable BigInteger flightNumber,@Valid @RequestBody Flight flight)
 		{
 			Flight flight1=flightService.modifyFlight(flightNumber);
+			
 			flight1.setSeatCapacity(flight.getSeatCapacity());
 			flight1.setCarrierName(flight.getCarrierName());
 			flight1.setFlightModel(flight.getFlightModel());
+			flightService.deleteFlight(flightNumber);
 			Flight flight2=flightService.addFlight(flight1);
+			log.info("Modified a flight");
 			return  new ResponseEntity<Flight>(flight2,HttpStatus.OK);
 		}
 		
@@ -62,6 +70,7 @@ public class FlightController {
 	public ResponseEntity<Flight> viewFlight(@PathVariable BigInteger flightNumber)
 	{
 		Flight flight=flightService.viewFlight(flightNumber);
+		log.info("viewed a flight");
 		return new ResponseEntity<Flight>(flight,HttpStatus.OK);
 		
 	}
@@ -71,6 +80,7 @@ public class FlightController {
 	public ResponseEntity<List<Flight>> viewAllFlights()
 	{
 		List<Flight> flightsList=flightService.viewAllFlights();
+		log.info("viewed all flights");
 		return new  ResponseEntity<List<Flight>>(flightsList,HttpStatus.OK);
 	}
 	
@@ -80,6 +90,7 @@ public class FlightController {
 	public ResponseEntity<Flight> deleteFlight(@PathVariable BigInteger flightNumber)
 	{
 		Flight flight=flightService.deleteFlight(flightNumber);
+		log.info("deleted a flight");
 		return new ResponseEntity<Flight>(flight,HttpStatus.OK);
 	}
 		

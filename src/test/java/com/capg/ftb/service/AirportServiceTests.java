@@ -45,6 +45,7 @@ public class AirportServiceTests {
 		Optional<Airport> airport1 = Optional.ofNullable(new Airport("001", "Bangalore", "Kempegowda"));
 		when(airportdao.save(airport1.get())).thenReturn(airport1.get());
 		when(airportdao.findById("001")).thenReturn(airport1);
+		assertEquals(airport1,airportdao.findById("001"));
 	}
 
 	// Test method to test functionality of View all Airports Method.

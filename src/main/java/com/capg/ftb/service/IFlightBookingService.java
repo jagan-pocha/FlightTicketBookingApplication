@@ -14,7 +14,7 @@ public interface IFlightBookingService {
 	
 	public Booking addBooking(Booking booking);
 	
-	public Booking modifyBooking(BigInteger bookingId);
+	public Booking modifyBooking(Booking booking,BigInteger bookingId);
 	 
 	public Booking viewBooking(BigInteger bookingId);
 	
@@ -28,4 +28,5 @@ public interface IFlightBookingService {
 	
 	public List<ScheduledFlight> searchForScheduledFlight(String srcAirport,String dstnAirport,String deptDate);
 
+	void modifyScheduledFlight(BigInteger scheduledFlightId, int passengersCount);
 }

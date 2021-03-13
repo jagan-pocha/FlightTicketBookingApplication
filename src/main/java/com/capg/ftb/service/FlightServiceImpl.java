@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.capg.ftb.dao.FlightDAO;
 import com.capg.ftb.dao.IScheduleFlightDAO;
+import com.capg.ftb.exception.FlightExceptions;
 import com.capg.ftb.exception.FlightNotFoundException;
 import com.capg.ftb.model.Flight;
 import com.capg.ftb.model.ScheduledFlight;
@@ -35,8 +36,26 @@ public class FlightServiceImpl implements IFlightService {
 	public Flight addFlight(Flight flight) {
 		// TODO Auto-generated method stub
 		
+		if(!validate(flight))
+		{
+		return 	null;
+		}
+		else
+		{
+		List<Flight> list=flightDao.findAll();
+		for(int i=0;i<list.size();i++)
+		{
+			Flight f=list.get(i);
+			if(f.getFlightNumber().compareTo(flight.getFlightNumber())==0)
+			{
+				throw new FlightExceptions("Flight with given Number already existed");
+			}
+		}
 		Flight flight1=flightDao.save(flight);
+		
+		
 		return flight1;
+		}
 	}
 
 	//Modify the details of a flight
@@ -50,7 +69,7 @@ public class FlightServiceImpl implements IFlightService {
 		for(int i=0;i<list.size();i++)
 		{
 			ScheduledFlight sFlight=list.get(0);
-			if(sFlight.getFlight().getFlightNumber()==flightNumber && sFlight.getSchedule().getDeptDate().compareTo(df.format(date))>0)
+			if(sFlight.getFlight().getFlightNumber().compareTo(flightNumber)==0)
 			{
 				throw new FlightNotFoundException("Flight can not be deleted now ,as it is Scheduled to fly");
 			}
@@ -89,7 +108,7 @@ public class FlightServiceImpl implements IFlightService {
 		for(int i=0;i<list.size();i++)
 		{
 			ScheduledFlight sFlight=list.get(0);
-			if(sFlight.getFlight().getFlightNumber()==flightNumber && sFlight.getSchedule().getDeptDate().compareTo(df.format(date))>0)
+			if(sFlight.getFlight().getFlightNumber().compareTo(flightNumber)==0 && sFlight.getSchedule().getDeptDate().compareTo(df.format(date))>0)
 			{
 				throw new FlightNotFoundException("Flight can not be deleted now ,as it is Scheduled to fly");
 			}
@@ -97,6 +116,28 @@ public class FlightServiceImpl implements IFlightService {
 		flightDao.deleteById(flightNumber);
 		return flight;
 		
+	}
+	
+	
+
+	public boolean validate(Flight flight)
+	{
+		if(!(flight.getFlightNumber().compareTo(new BigInteger("555000"))>=0) &&  !(flight.getFlightNumber().compareTo(new BigInteger("555999"))<=0))
+		{
+			throw new FlightExceptions("Flight Number must be 555000 to 555999");
+		}
+		else 	if(flight.getCarrierName().length()<3 && flight.getFlightModel().length()<3)
+		{
+			throw new FlightExceptions("Carrier Name and Flight model cannot be less than 3 characters");
+		}
+		else if(flight.getSeatCapacity()<30)
+		{
+			throw new FlightExceptions("minimum 30 seats");
+		}
+		else
+		{
+		return true;
+		}
 	}
 
 	

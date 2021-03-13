@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +39,10 @@ public class ScheduledFlightController {
 	private static final Logger log =LogManager.getLogger(AirportController.class);
 		
 	
+	
 	@Autowired
 	private ScheduledFlightServiceImpl scheduledFService;
+	
 	
 	
 	//Method to schedule the Flight
@@ -52,6 +56,8 @@ public class ScheduledFlightController {
 		return new ResponseEntity<ScheduledFlight>(scheduledFlight1,HttpStatus.CREATED);
 	}
 	
+	
+	
 	// mathod to view all scheduled Flights
 	@ApiOperation(value = "To View all Scheduled Flights")
 	@GetMapping(value="/viewAllScheduledFlights")
@@ -61,6 +67,8 @@ public class ScheduledFlightController {
 		log.info("Viewed all scheduled Flight");
 		return new ResponseEntity<List<ScheduledFlight>>(allSFlights,HttpStatus.OK);
 	}
+	
+	
 	
 	//method to view the  scheduled Flight using scheduled Id
 	@ApiOperation(value = "To view a Scheduled Flight")
@@ -73,17 +81,21 @@ public class ScheduledFlightController {
 	}
 	
 
+	
+	
 	//method to modify the scheduled flight
 	@ApiOperation(value = "modify a Scheduled a Flight")
 	@PutMapping(value="/modifyScheduledFlight/{scheduleFlightId}")
 	public ResponseEntity<ScheduledFlight> modifycheduledFlight(@Valid @RequestBody ScheduledFlight scheduledFlight,@PathVariable BigInteger scheduleFlightId)
 	{
 		ScheduledFlight sFlight=scheduledFService.modifyScheduledFlight(scheduledFlight,scheduleFlightId);
-		ScheduledFlight sFlight1=scheduledFService.addScheduledFlight(sFlight);
-		scheduledFService.removeScheduledFlight(scheduleFlightId); 
+		
+		
 		log.info("modified a Scheduled  Flight");
-		return new ResponseEntity<ScheduledFlight>(sFlight1,HttpStatus.OK);
+		return new ResponseEntity<ScheduledFlight>(sFlight,HttpStatus.OK);
 	}
+	
+	
 	
 	//search the flight based on source ,detination and travelling date
 	

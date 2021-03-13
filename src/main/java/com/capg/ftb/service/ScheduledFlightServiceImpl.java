@@ -13,7 +13,11 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.stereotype.Service;
 
 import com.capg.ftb.dao.IAirportDAO;
@@ -22,6 +26,7 @@ import com.capg.ftb.dao.IScheduleFlightDAO;
 import com.capg.ftb.exception.AirportNotFoundException;
 import com.capg.ftb.exception.FlightExceptions;
 import com.capg.ftb.exception.FlightNotFoundException;
+import com.capg.ftb.exception.RecordAlreadyPresentException;
 import com.capg.ftb.exception.SeatsNotAvailableException;
 import com.capg.ftb.exception.scheduleEntityExceptions;
 import com.capg.ftb.model.Airport;
@@ -40,6 +45,8 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 	
 	@Autowired
 	private FlightDAO flightDao;
+	
+	
 	
 	//Mathod to add Scheduled a flight
 	
@@ -74,8 +81,14 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		for(int i=0;i<list.size();i++)
 		{
 			
+						
 			ScheduledFlight sdFlight=list.get(i);
-			if(sdFlight.getFlight()==scheduledFlight.getFlight())
+			
+			if(sdFlight.getScheduleFlightId().compareTo(scheduledFlight.getScheduleFlightId())==0)
+			{
+				throw new RecordAlreadyPresentException("Scheduled Flight alredy existed with given scheduleFlight id");
+			}
+			if(sdFlight.getFlight().getFlightNumber().compareTo(scheduledFlight.getFlight().getFlightNumber())==0)
 			{
 				//Check whether the flight is available to schedule on this day
 				
@@ -109,6 +122,8 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		}
 	}
 	
+	
+	
 	//Method to check flight is already scheduled
 	
 	public boolean isItScheduled(String str,String str1)
@@ -139,6 +154,9 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		}
 	}
 	
+	
+	
+	
 	//Method to modify the scheduled flight
 
 	@Override
@@ -154,6 +172,30 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		{
 			throw new FlightNotFoundException("Unable to modify ! Pasengers are already booked the flight");
 		}
+		
+		
+//	List<ScheduledFlight> list=scheduleFilghtDao.findAll();
+//		
+//		for(int i=0;i<list.size();i++)
+//		{
+//			ScheduledFlight sFlight1=list.get(i);
+//			
+//			if(sFlight1.getFlight().getFlightNumber().compareTo(sFlight.getFlight().getFlightNumber())==0 && !(scheduledFlight.getFlight().getFlightNumber().compareTo(flight1.getFlightNumber())==0))
+//			{
+//				throw new FlightExceptions("Flight with the given number is already existed");
+//			}
+//		}
+//		
+		//scheduling Id cannot be modified once if it schedulued
+		if(!((sFlight.getFlight().getFlightNumber()).compareTo(scheduledFlight.getFlight().getFlightNumber())==0))
+		{
+			throw new FlightNotFoundException("FlightNumber  can not be modified");
+		}
+		
+		if(!(scheduledFlightId.compareTo(scheduledFlight.getScheduleFlightId())==0))
+		{
+			throw new FlightNotFoundException("scheduling Flight Id can not be modified");
+		}
 		else if(scheduledFlight.getFlight().getSeatCapacity()<scheduledFlight.getAvailableSeats())
 		{
 			
@@ -161,12 +203,21 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		}
 		else
 		{
+			//validate the modifying Scheduling details
+			validate(scheduledFlight);
 			
-			//SscheduleFilghtDao.deleteById(scheduledFlightId);
-		return scheduledFlight;
+			//remove the existed table before updating
+			removeScheduledFlight(scheduledFlightId); 
+			
+			//save the modified table
+			ScheduledFlight sFlight1=scheduleFilghtDao.save(scheduledFlight);
+			return sFlight1;
 		}
 	}
 
+	
+	
+	
 	//method to View all scheduled flights
 	
 	@Override
@@ -176,6 +227,10 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		return allSFlights;
 	}
 
+	
+	
+	
+	
 	///method to View a scheduled flight based on id
 	
 	@Override
@@ -187,6 +242,10 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		return sFlight;
 	}
 
+	
+	
+	
+	
 	//method to remove the scheduled flight
 
 	@Override
@@ -198,12 +257,16 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		
 	}
 
+	
+	
+	
 	//list the scheduled flight based on source and destination and departure date
 
 	@Override
 	public List<ScheduledFlight> searchScheduledFlight(String srcAirport, String destAirport,String deptDate) {
 		// TODO Auto-generated method stub
 		
+		//validating date 
 		Pattern p1=Pattern.compile("[0-9][1-9]-[0-9][0-9]-[2-9][0-9][0-9][0-9]");
 		if(!(p1.matcher(deptDate).find()))
 		{
@@ -226,16 +289,23 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		}
 	}
      
+	
+	
+	
 	//validating all the attributes of schedule and Flight Entity
 	@Override
 	public boolean validate(ScheduledFlight scheduledFlight) {
 		// TODO Auto-generated method stub
 		
 		Flight flight=scheduledFlight.getFlight();
+		System.out.println(flight.getFlightNumber());
 		Schedule schedule=scheduledFlight.getSchedule();
 		Pattern p=Pattern.compile("[0-9][1-9]:[0-9][0-9]");
 		Pattern p1=Pattern.compile("[0-9][1-9]-[0-9][0-9]-[2-9][0-9][0-9][0-9]");
+		SimpleDateFormat df=new SimpleDateFormat("MM-dd-yyyy");
+		Date date=new Date();
 		
+	
 		if(flight.getCarrierName().length()<3 && flight.getFlightModel().length()<3)
 		{
 			throw new FlightExceptions("Carrier Name and Flight model cannot be less than 3 characters");
@@ -255,6 +325,10 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		else if(schedule.getDstnAirport()==schedule.getSrcAirport())
 		{
 			throw new scheduleEntityExceptions("Src and Destination can not be same");
+		}
+		else if(!(flight.getFlightNumber().compareTo(new BigInteger("555000"))>=0) &&  !(flight.getFlightNumber().compareTo(new BigInteger("555999"))<=0))
+		{
+			throw new FlightExceptions("Flight Number must be 555000 to 555999");
 		}
 		else
 		{
