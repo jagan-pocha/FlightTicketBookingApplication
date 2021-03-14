@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,6 +35,7 @@ public class ScheduledFlightServiceTests {
 
 	@Autowired
 	private IAirportDAO airportDao;
+	
 
 	@Autowired
 	private IScheduledFlightService scheduleFService;
@@ -41,7 +43,7 @@ public class ScheduledFlightServiceTests {
 	@Test
 	public void testaddScheduledFlight() {
 		
-		BigInteger bI=new BigInteger("555020");
+		BigInteger bI=new BigInteger("555030");
 		Airport a=new Airport("testA1", "RGIA", "Hyderabad");
 		airportDao.save(a);
 	
@@ -50,39 +52,101 @@ public class ScheduledFlightServiceTests {
 		
 		Flight flight=new Flight(bI,"GoJet Airlines", "GJ200", 60);
 		
-		Schedule schedule=new Schedule(new BigInteger("999020"),"testA1","testA2","03-12-2021","03-13-2021","10:00","12:00");
+		Schedule schedule=new Schedule(new BigInteger("020"),"testA1","testA2","03-12-2021","03-13-2021","10:00","12:00");
 		
-		ScheduledFlight sFlight=new ScheduledFlight(bI,flight,60,schedule,500.0);
-		ScheduledFlight r1=scheduleFDao.save(sFlight);
-
+		ScheduledFlight sFlight=new ScheduledFlight(new BigInteger("999030"),flight,60,schedule,500.0);
      	ScheduledFlight r2=scheduleFService.addScheduledFlight(sFlight);
-//		System.out.println(test.getScheduleFlightId());
-//		System.out.println(test1.getScheduleFlightId());
-		assertEquals(r1,r2);
-
-	}
-
-	@Test
-	public void testViewAllScheduledFlights()
-	{
-		BigInteger bI=new BigInteger("1");
-		Airport a=new Airport("IDA1RGIA", "RGIA", "Hyderabad");
-		//when(airportDao.save(a)).thenReturn(a);
-	
-		Airport a1=new Airport("IDA1KGIA", "KGIA", "Bengaluru");
-	//	when(airportDao.save(a1)).thenReturn(a1);
-		
-		Flight f =new Flight(bI, "GoJet Airlines", "GJ200", 60);
-		//when(flightDao.save(f)).thenReturn(f);
+		assertEquals(sFlight.getScheduleFlightId(),r2.getScheduleFlightId());
 		
 		
-	
 	}
 	
 	@Test
 	public void testViewScheduledFlight()
 	{
+		BigInteger bI=new BigInteger("555031");
+		Airport a=new Airport("testA1", "RGIA", "Hyderabad");
+		airportDao.save(a);
+	
+		Airport a1=new Airport("testA2", "KGIA", "Bengaluru");
+		airportDao.save(a1);
+		
+		Flight flight=new Flight(bI,"GoJet Airlines", "GJ200", 60);
+		
+		Schedule schedule=new Schedule(new BigInteger("020"),"testA1","testA2","03-12-2021","03-13-2021","10:00","12:00");
+		
+		ScheduledFlight sFlight=new ScheduledFlight(new BigInteger("999031"),flight,60,schedule,500.0);
+		ScheduledFlight r2=scheduleFService.addScheduledFlight(sFlight);
+		ScheduledFlight sFlight1=scheduleFService.viewScheduledFlight(new BigInteger("999031"));
+		assertEquals(sFlight.getScheduleFlightId(),sFlight1.getScheduleFlightId());
+		
+		
+	}
 
+	
+	@Test
+	public void testViewAllScheduledFlights1()
+	{
+		List<ScheduledFlight> list=scheduleFService.viewAllScheduledFlights();
+		assertEquals(scheduleFDao.findAll().size(),list.size());
+	}
+	
+	
+	@Test
+	public void testModifySFlight()
+	{
+		BigInteger bI=new BigInteger("555032");
+		Airport a=new Airport("testA1", "RGIA", "Hyderabad");
+		airportDao.save(a);
+	
+		Airport a1=new Airport("testA2", "KGIA", "Bengaluru");
+		airportDao.save(a1);
+		
+		Flight flight=new Flight(bI,"GoJet Airlines", "GJ200", 60);
+		
+		Schedule schedule=new Schedule(new BigInteger("020"),"testA1","testA2","03-12-2021","03-13-2021","10:00","12:00");
+		
+		ScheduledFlight sFlight=new ScheduledFlight(new BigInteger("999032"),flight,60,schedule,500.0);
+		ScheduledFlight r2=scheduleFService.addScheduledFlight(sFlight);
+		r2.setAvailableSeats(100);
+		r2.getFlight().setSeatCapacity(100);;
+		ScheduledFlight sFlight1=scheduleFService.modifyScheduledFlight(r2,new BigInteger("999032"));
+		assertEquals(100,sFlight1.getAvailableSeats());
+	}
+	
+	
+	
+	@Test
+	public void testRemoveScheduledFlihgt()
+	{
+		
+		BigInteger bI=new BigInteger("555034");
+		Airport a=new Airport("testA1", "RGIA", "Hyderabad");
+		airportDao.save(a);
+	
+		Airport a1=new Airport("testA2", "KGIA", "Bengaluru");
+		airportDao.save(a1);
+		
+		Flight flight=new Flight(bI,"GoJet Airlines", "GJ200", 60);
+		
+		Schedule schedule=new Schedule(new BigInteger("020"),"testA1","testA2","03-12-2021","03-13-2021","10:00","12:00");
+		
+		ScheduledFlight sFlight=new ScheduledFlight(new BigInteger("999034"),flight,60,schedule,500.0);
+		ScheduledFlight r2=scheduleFService.addScheduledFlight(sFlight);
+		scheduleFService.removeScheduledFlight(new BigInteger("999034"));
+		assertEquals(2,scheduleFService.viewAllScheduledFlights().size());
+	}
+	
+	@AfterAll
+	@Test
+	public void testAfterAll()
+	{
+		scheduleFDao.deleteAll();
+		
+		flightDao.deleteAll();
+		
+		airportDao.deleteAll();
+		
 	}
 
 	

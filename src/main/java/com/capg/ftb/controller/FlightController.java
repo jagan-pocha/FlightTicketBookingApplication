@@ -31,7 +31,6 @@ import io.swagger.annotations.Api;
 
 @RestController
 @RequestMapping(value="/ftb")
-@Validated
 @Api
 public class FlightController {
 	
@@ -40,14 +39,19 @@ public class FlightController {
 	@Autowired
 	private IFlightService flightService;
 	
+	
+	
 	// Adds a new flight which can be scheduled
 	@PostMapping(value="/addFlight")
-	public ResponseEntity<Flight> addFlight(@Valid @RequestBody Flight flight)
+	public ResponseEntity<Flight> addFlight(@RequestBody Flight flight)
 	{
 		Flight flight1=flightService.addFlight(flight);
 		log.info("Added a flight");
 		return new ResponseEntity<Flight>(flight1,HttpStatus.CREATED);
 	}
+	
+	
+	
 	
 	//Modify the details of a flight
 		@PutMapping(value="/modifyFlight/{flightNumber}")
@@ -59,10 +63,13 @@ public class FlightController {
 			flight1.setCarrierName(flight.getCarrierName());
 			flight1.setFlightModel(flight.getFlightModel());
 			flightService.deleteFlight(flightNumber);
+			flightService.validateFlight(flight1);
 			Flight flight2=flightService.addFlight(flight1);
 			log.info("Modified a flight");
 			return  new ResponseEntity<Flight>(flight2,HttpStatus.OK);
 		}
+		
+		
 		
 		
 	//View the details of a flight specified by the flight number
@@ -75,6 +82,9 @@ public class FlightController {
 		
 	}
 	
+	
+	
+	
 	// View the details of all flights 
 	@GetMapping(value="/viewAllFlights")
 	public ResponseEntity<List<Flight>> viewAllFlights()
@@ -83,6 +93,9 @@ public class FlightController {
 		log.info("viewed all flights");
 		return new  ResponseEntity<List<Flight>>(flightsList,HttpStatus.OK);
 	}
+	
+	
+	
 	
 	
 	// Removes a flight

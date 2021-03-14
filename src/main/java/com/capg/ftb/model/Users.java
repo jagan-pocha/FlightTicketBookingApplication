@@ -30,29 +30,22 @@ public class Users {
 	private BigInteger userId;
 	
 	@Column
-	@Size(min=5,max=8,message="type should be admin/customer")
 	@ApiModelProperty(notes = "Type should be admin or customer", required = false, position=2)
 	private String userType;
 	
 	@Column
-	@Size(min=3,message="Name can not be less than 3 letters")
 	@ApiModelProperty(notes = "Unique user name required", required = false, position=3)
 	private String userName;
 	
 	@Column
-	@Size(min=8,message="password should be atleast 8 letters")
 	@ApiModelProperty(notes = "Minimum length 8 characters", required = false, position=4)
 	private String password;
 	
 	@Column
-	@NotNull(message = "mobile number can not be null")
-	@Pattern(regexp="(0/91)?[7-9][0-9]{9}",message="Number must not start with 0")
-	@ApiModelProperty(notes = "Must be 10 digits and should not start with 0", required = false, position=5)
+	@ApiModelProperty(notes = "Must be 11/12 digits", required = false, position=5)
 	private String mobileNumber;
 	
 	@Column
-	@NotNull(message = "email can not be null")
-	@Pattern(regexp = "^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$", message = "Invalid email address")
 	@ApiModelProperty(notes = "Strictly only valid emails are allowed", required = false, position=6)
 	private String email;
 	

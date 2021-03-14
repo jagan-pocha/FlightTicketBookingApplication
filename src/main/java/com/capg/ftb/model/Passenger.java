@@ -32,7 +32,7 @@ public class Passenger {
 	@ApiModelProperty(notes = "Age of a Pasenger", required = false, position=3)
 	private int passengerAge;
 
-	@Column(name = "passengerUIN")
+	@Column
 	@ApiModelProperty(notes = "Fixed length of 12 digits", required = false, position=4)
 	private BigInteger passengerUIN;
 

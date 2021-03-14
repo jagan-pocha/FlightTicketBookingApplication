@@ -41,28 +41,14 @@ public class BookingController {
 		return new ResponseEntity<Booking>(booking1,HttpStatus.CREATED);
 	}
 	
-//	@PutMapping("/modifyBooking/{bookingId}")
-//	@ExceptionHandler(BookingNotFoundException.class)
-//	public ResponseEntity<Booking> modifyBookings(@Valid @RequestBody int updateBooking) {
-//
-//		Booking booking1=bookingService.modifyBooking(updateBooking);
-//		return new ResponseEntity<Booking>(booking1,HttpStatus.OK);
-//	}
 	
 	
 	@PutMapping(value="/modifyBooking/{bookingId}")
 	public ResponseEntity<Booking> modifyBooking(@Valid @RequestBody Booking booking,@PathVariable BigInteger bookingId) 
 	{
 		Booking booking1= bookingService.modifyBooking(booking, bookingId);
-		booking1.setBookingId(booking.getBookingId());
-		booking1.setUserId(booking.getUserId());
-		booking1.setBookingDate(booking.getBookingDate());
 		
-		booking1.setPassengerList(booking.getPassengerList());
-		booking1.setTicketCost(booking.getTicketCost());
 				
-		//Booking booking2=bookingService.addBooking(booking1);
-		bookingService.deleteBooking(bookingId);
 		return  new ResponseEntity<Booking>(booking1,HttpStatus.OK);
 	}
 	
@@ -87,20 +73,20 @@ public class BookingController {
 		return new ResponseEntity<Booking>(booking1,HttpStatus.OK);
 	}
 	
-	@GetMapping(value="/validateBooking")
-	public ResponseEntity<String> validateBooking(@Valid @RequestBody BigInteger booking)
-	{
-	 
-       Booking booking1=bookingService.validateBooking(booking);
-		if(booking1!=null)
-		{
-		return new ResponseEntity<String>("Booking ID: "+booking1.getBookingId()+"\nUser ID: "+booking1.getUserId()+"\nYour Booking is confirmed. Happy Journey!",HttpStatus.OK);
-		}
-		else
-		{
-			return new ResponseEntity<String>(" Booking Not Found! ",HttpStatus.OK);		
-		}
-	}
+//	@GetMapping(value="/validateBooking")
+//	public ResponseEntity<String> validateBooking(@Valid @RequestBody BigInteger booking)
+//	{
+//	 
+//       Booking booking1=bookingService.validateBooking(booking);
+//		if(booking1!=null)
+//		{
+//		return new ResponseEntity<String>("Booking ID: "+booking1.getBookingId()+"\nUser ID: "+booking1.getUserId()+"\nYour Booking is confirmed. Happy Journey!",HttpStatus.OK);
+//		}
+//		else
+//		{
+//			return new ResponseEntity<String>(" Booking Not Found! ",HttpStatus.OK);		
+//		}
+//	}
 		
 	@GetMapping(value="/searchForScheduledFlight/{srcAirport}/{dstnAirport}/{deptDate}")
 	public ResponseEntity<List<ScheduledFlight>> searchForScheduledFlight(@PathVariable String srcAirport,@PathVariable String dstnAirport,@PathVariable String deptDate)

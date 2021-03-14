@@ -21,4 +21,5 @@ public interface IFlightService {
 	
 	public Flight modifyFlight(BigInteger flightNumber);
 	
+	public boolean validateFlight(Flight flight);
 }

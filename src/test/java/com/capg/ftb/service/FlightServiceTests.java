@@ -39,16 +39,6 @@ public class FlightServiceTests {
 	}
 	
 	
-	@Test
-	public void test2AddFlight()
-	{
-		BigInteger bI=new BigInteger("1");
-		Flight flight=new Flight(bI,"American Airlines","AAB600",80);
-		Flight flight1=flightDao.save(flight);;
-		when(flightDao.save(flight1)).thenReturn(flight1);
-		assertEquals(flight1,flightService.addFlight(flight1));
-	}
-	
 	
 	@Test
 	public void testViewFlight() {

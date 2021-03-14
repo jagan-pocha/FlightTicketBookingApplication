@@ -108,7 +108,7 @@ public class Booking {
 		this.noOfPassangers = noOfPassangers;
 	}
 	
-	public Booking(BigInteger bookingId,Users userId,LocalDate bookingDate,List <Passenger> passengerList,double ticketCost,BigInteger scheduledFlightId) {
+	public Booking(BigInteger bookingId,Users userId,LocalDate bookingDate,List <Passenger> passengerList,double ticketCost,BigInteger scheduledFlightId,int noOfPassangers) {
 		super();
 		this.bookingId=bookingId;
 		this.userId=userId;
@@ -116,6 +116,7 @@ public class Booking {
 		this.passengerList=passengerList;
 		this.ticketCost=ticketCost;
 		this.scheduledFlightId=scheduledFlightId;
+		this.noOfPassangers=noOfPassangers;
 	}
 	public BigInteger getScheduledFlightId() {
 		return scheduledFlightId;

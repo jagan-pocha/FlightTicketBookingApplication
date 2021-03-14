@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 import com.capg.ftb.exception.AirportNotFoundException;
+import com.capg.ftb.exception.BookingsExceptions;
 import com.capg.ftb.exception.FlightExceptions;
 import com.capg.ftb.exception.FlightNotFoundException;
 import com.capg.ftb.exception.RecordAlreadyPresentException;
@@ -73,6 +74,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
 	{
 		return new ResponseEntity<String>(see.getMessage(),HttpStatus.NOT_FOUND);
 	}
+	
+	
+	@ExceptionHandler(BookingsExceptions.class)
+	public ResponseEntity<String> handleBookings(BookingsExceptions be)
+	{
+		return new ResponseEntity<String>(be.getMessage(),HttpStatus.NOT_FOUND);
+	}
+	
 	
 	 
 	 @ExceptionHandler(FlightExceptions.class)

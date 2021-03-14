@@ -22,7 +22,7 @@ public interface IFlightBookingService {
 	
 	public Booking deleteBooking(BigInteger bookingId);
 	
-	public Booking validateBooking(BigInteger boookingId);
+	//public Booking validateBooking(BigInteger boookingId);
 	
 	public Booking getById(BigInteger bookingId);
 	

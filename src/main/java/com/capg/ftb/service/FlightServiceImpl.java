@@ -31,16 +31,16 @@ public class FlightServiceImpl implements IFlightService {
 	
 	SimpleDateFormat df=new SimpleDateFormat("MM-dd-yyyy");
 	Date date=new Date();
+	
+	
+	
+	
 	// Adds a new flight which can be scheduled
 	@Override
 	public Flight addFlight(Flight flight) {
 		// TODO Auto-generated method stub
 		
-		if(!validate(flight))
-		{
-		return 	null;
-		}
-		else
+		if(validateFlight(flight))
 		{
 		List<Flight> list=flightDao.findAll();
 		for(int i=0;i<list.size();i++)
@@ -56,7 +56,15 @@ public class FlightServiceImpl implements IFlightService {
 		
 		return flight1;
 		}
+	
+	else
+	{
+	return null;	
 	}
+}
+	
+	
+	
 
 	//Modify the details of a flight
 	@Override
@@ -119,20 +127,21 @@ public class FlightServiceImpl implements IFlightService {
 	}
 	
 	
-
-	public boolean validate(Flight flight)
+	//validating Flight properties
+	@Override
+	public boolean validateFlight(Flight flight)
 	{
-		if(!(flight.getFlightNumber().compareTo(new BigInteger("555000"))>=0) &&  !(flight.getFlightNumber().compareTo(new BigInteger("555999"))<=0))
+		if(flight.getSeatCapacity()<30)
 		{
-			throw new FlightExceptions("Flight Number must be 555000 to 555999");
+			throw new FlightExceptions("minimum 30 seats");
 		}
-		else 	if(flight.getCarrierName().length()<3 && flight.getFlightModel().length()<3)
+		else if(flight.getCarrierName().length()<3 || flight.getFlightModel().length()<3)
 		{
 			throw new FlightExceptions("Carrier Name and Flight model cannot be less than 3 characters");
 		}
-		else if(flight.getSeatCapacity()<30)
+		else if(flight.getFlightNumber().compareTo(new BigInteger("555000"))<0 || flight.getFlightNumber().compareTo(new BigInteger("555999"))>0)
 		{
-			throw new FlightExceptions("minimum 30 seats");
+			throw new FlightExceptions("Flight Number must be 555000 to 555999");
 		}
 		else
 		{
