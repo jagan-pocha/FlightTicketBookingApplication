@@ -65,6 +65,8 @@ public class UsersServiceImpl implements IUsersService{
 		// TODO Auto-generated method stub
 		Optional<Users> optional=usersDao.findById(userId);
 		Users user4=optional.orElseThrow(()->new UserNotFoundException("User Not Existed with the id : "+userId));
+		
+		// validating User type 
 		if(!user4.getUserType().equals(newUser.getUserType()))
 		{
 			throw new UserNotFoundException("User type can not be mpdified");

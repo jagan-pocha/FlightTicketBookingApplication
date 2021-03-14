@@ -32,7 +32,7 @@ import com.capg.ftb.model.ScheduledFlight;
 import com.capg.ftb.model.Users;
 
 @Service
-public class BoookingServiceImpl implements IFlightBookingService{
+public class BookingServiceImpl implements IFlightBookingService{
 
 	@Autowired
 	private IBookingDAO bookingDao;
@@ -61,7 +61,7 @@ public class BoookingServiceImpl implements IFlightBookingService{
 		Optional<ScheduledFlight> optional1=scheduleFilghtDao.findById(booking.getScheduledFlightId());
 		ScheduledFlight scheduledFlight=(ScheduledFlight)optional1.orElseThrow(() ->new FlightNotFoundException("Scheduled Flight Not Found with the given ID : "+booking.getScheduledFlightId()));
 
-		if(validateAttributes(booking) && userService.validateAttributes(booking.getUserId()))
+		if(validateAttributes(booking) && validateUserName(booking.getUserName()))
 		{
 
 
@@ -78,9 +78,7 @@ public class BoookingServiceImpl implements IFlightBookingService{
 				LocalDate date = LocalDate.now();
 				booking.setBookingDate(date);
 
-				Users user=booking.getUserId();
-				user.setUserType("customer");
-				booking.setUserId(user);
+			
 				booking.setTicketCost(scheduledFlight.getCostPerHead()*booking.getNoOfPassangers());
 
 				modifyScheduledFlight(scheduledFlight.getScheduleFlightId(),booking.getNoOfPassangers());
@@ -110,12 +108,9 @@ public class BoookingServiceImpl implements IFlightBookingService{
 		}
 		else
 		{
-			Users user=booking1.getUserId();
-			Users user1=booking.getUserId();
-			
-			if(!(user.getEmail().equals(user1.getEmail())) || !(user.getMobileNumber().equals(user1.getMobileNumber())) || !(user.getPassword().equals(user1.getPassword())) || !(user.getUserName().equals(user1.getUserName())) || !(user.getUserType().equals(user1.getUserType())))
+			if(!(booking.getUserName().equals(booking1.getUserName())))
 			{
-				throw new BookingsExceptions("User Details cannot be modified after booking");
+				throw new BookingsExceptions("User Name cannot be modfied");
 			}
 			if(validateAttributes(booking))
 			{
@@ -171,21 +166,20 @@ public class BoookingServiceImpl implements IFlightBookingService{
 	}
 
 
-//	@Override
-//	public Booking validateBooking(BigInteger bookingId) {
-//		// TODO Auto-generated method stub
-//		Booking booking1=getById(bookingId);
-//		if(booking1.getBookingId()==(bookingId))
-//		{
-//
-//			return booking1;
-//
-//		}
-//		else
-//		{
-//			return null;
-//		}
-//	}
+	// validate UserName
+	
+	public boolean validateUserName(String userName)
+	{
+		Users user=usersDao.findByUserName(userName);
+		if(user==null)
+		{
+			throw new UserNotFoundException("User with given Name not existed");
+		}
+		else
+		{
+		return true;
+		}
+	}
 
 	@Override
 	public Booking getById(BigInteger bookingId) {
@@ -209,7 +203,14 @@ public class BoookingServiceImpl implements IFlightBookingService{
 				list1.add(sFlight);
 			}
 		}
+		if(list1.size()==0)
+		{
+			throw new FlightNotFoundException("Invalid details or no scheduled flight found");
+		}
+		else
+		{
 		return list1;
+		}
 	}
 
 	@Override

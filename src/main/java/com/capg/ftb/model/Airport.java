@@ -28,19 +28,19 @@ public class Airport {
 
 	@Id
 	@Size(min=3,message="code must be atleast 3 letters")
-	@NotNull(message="code cannot be bull")
+	@NotNull(message="code cannot be null")
 	@ApiModelProperty(notes = "Primary key", required = true, position=1)
 	private String airportCode;
 	
 	@Column
 	@Size(min=3,message="name must be atleast 3 letters")
-	@NotNull(message="code cannot be bull")
+	@NotNull(message="code cannot be null")
 	@ApiModelProperty(notes = "AirportName cannot be null and minimum three letters", required = false, position=2)
 	private String airportName;
 
 	@Column
 	@Size(min=3,message="location must be atleast 3 letters")
-	@NotNull(message="code cannot be bull")
+	@NotNull(message="code cannot be null")
 	@ApiModelProperty(notes = "AirportLocation cannot be null and minimum three letters", required = false, position=3)
 	private String airportLocation;
 

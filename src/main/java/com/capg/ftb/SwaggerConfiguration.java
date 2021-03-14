@@ -30,7 +30,7 @@ public class SwaggerConfiguration {
     private ApiInfo getApiInfo() {
 	    return new ApiInfo(
 		    "Flight Ticket Booking Application",
-		    "Authors: Mrudhula , Manasvi, Thiracy Mary, SundaraLahari, Mery Jennifer, JaganMohan",
+		    "Authors: Mrudhula , Manasvi, Thiracy Mary, SundaraLahari, Mary Jennifer, JaganMohan",
 		    "1.0.0",
 		    "https://ftb.capg.com",
 		    new Contact("Batch 1, Group 3 DCX","https://capgemini.com","ftbapp@gmail.com"),

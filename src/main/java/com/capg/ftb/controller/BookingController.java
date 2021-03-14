@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.ftb.model.Booking;
 import com.capg.ftb.model.ScheduledFlight;
-import com.capg.ftb.service.BoookingServiceImpl;
+import com.capg.ftb.service.BookingServiceImpl;
 
 import io.swagger.annotations.Api;
 
@@ -32,7 +32,7 @@ import io.swagger.annotations.Api;
 public class BookingController {
 	
 	@Autowired
-	private BoookingServiceImpl bookingService;
+	private BookingServiceImpl bookingService;
 	
 	@PostMapping(value="/addBooking")
 	public ResponseEntity<Booking> addBooking( @RequestBody Booking booking)

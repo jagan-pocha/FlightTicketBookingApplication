@@ -38,7 +38,7 @@ public class ScheduledFlightController {
 	
 	private static final Logger log =LogManager.getLogger(AirportController.class);
 		
-	
+
 	
 	@Autowired
 	private ScheduledFlightServiceImpl scheduledFService;
