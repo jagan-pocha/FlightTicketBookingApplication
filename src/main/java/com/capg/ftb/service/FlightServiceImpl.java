@@ -73,13 +73,18 @@ public class FlightServiceImpl implements IFlightService {
 		Optional<Flight> optional=flightDao.findById(flightNumber);
 		Flight flight1=optional.orElseThrow(()->new FlightNotFoundException("Flight Not Existed with the id : "+flightNumber));
 		
+		if(!(flight1.getFlightNumber().compareTo(flightNumber)==0))
+		{
+			throw new FlightNotFoundException("Flight cannot be modified");
+		}
+		
 		List<ScheduledFlight> list=scheduledFDao.findAll();
 		for(int i=0;i<list.size();i++)
 		{
 			ScheduledFlight sFlight=list.get(0);
 			if(sFlight.getFlight().getFlightNumber().compareTo(flightNumber)==0)
 			{
-				throw new FlightNotFoundException("Flight can not be deleted now ,as it is Scheduled to fly");
+				throw new FlightNotFoundException("Flight can not be deleted now , as it is Scheduled to fly");
 			}
 		}
 		return flight1;

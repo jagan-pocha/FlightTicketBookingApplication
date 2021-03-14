@@ -31,7 +31,7 @@ public class FlightServiceTests {
 	@Test
 	public void testAddFlight()
 	{
-		BigInteger bI=new BigInteger("1");
+		BigInteger bI=new BigInteger("555000");
 		Flight flight=new Flight(bI,"GoJet Airlines","CRJ500",60);
 		when(flightDao.save(flight)).thenReturn(flight);
 		Flight flight1=flightDao.save(flight);
@@ -42,7 +42,7 @@ public class FlightServiceTests {
 	
 	@Test
 	public void testViewFlight() {
-		BigInteger bI=new BigInteger("1");
+		BigInteger bI=new BigInteger("555000");
 		Optional<Flight> flight = Optional.ofNullable(new Flight(bI,"American Airlines","AAB600",80));
 		when(flightDao.save(flight.get())).thenReturn(flight.get());
 		when(flightDao.findById(bI)).thenReturn(flight);
@@ -53,7 +53,7 @@ public class FlightServiceTests {
 	@Test
 	public void testViewAllFlights()
 	{
-		BigInteger bI=new BigInteger("1");
+		BigInteger bI=new BigInteger("555000");
 		Flight flight=new Flight(bI,"American Airlines","AAB600",80);
 		Flight flight1=new Flight(bI,"Airlines","A600",70);
 		flightDao.save(flight);
@@ -66,7 +66,7 @@ public class FlightServiceTests {
 	@Test
 	public void testDeleteFlight()
 	{
-		BigInteger bI=new BigInteger("1");
+		BigInteger bI=new BigInteger("555000");
 		Flight flight=new Flight(bI,"GoJet Airlines","CRJ500",60);
 		when(flightDao.save(flight)).thenReturn(flight);
 		flightDao.save(flight);
@@ -78,7 +78,7 @@ public class FlightServiceTests {
 	@Test
 	public void testUpdateFlight()
 	{
-		BigInteger bI=new BigInteger("1");
+		BigInteger bI=new BigInteger("555000");
 		Flight flight=new Flight(bI,"GoJet Airlines","CRJ500",60);
 		when(flightDao.save(flight)).thenReturn(flight);
 		Flight flight1=flightDao.save(flight);

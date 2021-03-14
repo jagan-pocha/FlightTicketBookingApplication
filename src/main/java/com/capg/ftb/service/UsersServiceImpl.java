@@ -65,8 +65,19 @@ public class UsersServiceImpl implements IUsersService{
 		// TODO Auto-generated method stub
 		Optional<Users> optional=usersDao.findById(userId);
 		Users user4=optional.orElseThrow(()->new UserNotFoundException("User Not Existed with the id : "+userId));
+		if(!user4.getUserType().equals(newUser.getUserType()))
+		{
+			throw new UserNotFoundException("User type can not be mpdified");
+		}
+		if(validateAttributes(newUser))
+		{
 		usersDao.deleteById(userId);
 		return newUser;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	@Override
@@ -112,7 +123,7 @@ public class UsersServiceImpl implements IUsersService{
 		
 		Pattern mail=Pattern.compile("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$");
 		
-		if(user.getUserType().toLowerCase()=="admin" || user.getUserType().toLowerCase()=="customer")
+		if(!(user.getUserType().toLowerCase().equals("admin") || user.getUserType().toLowerCase().equals("customer")))
 		{
 			throw new UserNotFoundException("User type must be admin/customer");
 		}

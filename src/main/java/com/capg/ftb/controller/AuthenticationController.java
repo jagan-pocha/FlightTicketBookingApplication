@@ -29,7 +29,11 @@ public class AuthenticationController {
 	public ResponseEntity<String> login(@PathVariable String userName,@PathVariable String password)
 	{
 		Users user=userDao.findByUserName(userName);
+
 		String str="";
+		if(user!=null)
+		{
+		
 		if(user.getPassword().equals(password))
 		{
 			str="welcome "+user.getUserType()+", "+userName;
@@ -37,6 +41,10 @@ public class AuthenticationController {
 		else
 		{
 			str="Sorry, Invalid Credentials";
+		}
+		}else
+		{
+			str="user name not Existed";
 		}
 		log.info("User "+userName+" logged in ");
 		return new ResponseEntity<String>(str,HttpStatus.OK);

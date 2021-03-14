@@ -83,6 +83,8 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 
 					ScheduledFlight sdFlight=list.get(i);
 
+					//Validating scheduling Flight Id
+
 					if(sdFlight.getScheduleFlightId().compareTo(scheduledFlight.getScheduleFlightId())==0)
 					{
 						throw new RecordAlreadyPresentException("Scheduled Flight alredy existed with given scheduleFlight id");
@@ -92,6 +94,9 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 				for(int i=0;i<fList.size();i++)
 				{
 					Flight flight=fList.get(0);
+
+					// validating Flight Number
+
 					if(flight.getFlightNumber().compareTo(scheduledFlight.getFlight().getFlightNumber())==0)
 					{
 						throw new RecordAlreadyPresentException("Flight with given flight number is already existed, select other flight number");
@@ -115,17 +120,19 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 
 
 
-	//Method to check flight is already scheduled
+	//Method to verify that the scheduling date cannot be the today's date 
 
-	public boolean isItScheduled(String deptDate)
+	public boolean isItScheduled(String deptDate,String arrDate)
 	{
 		SimpleDateFormat df=new SimpleDateFormat("MM-dd-yyyy");
 		Date date1=null;
+		Date date2=null;
 		Date date = new Date();   
 
 		try 
 		{
 			date1 = df.parse(deptDate);
+			date2=df.parse(arrDate);
 		} 
 		catch (Exception e) 
 		{
@@ -133,8 +140,9 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 			e.printStackTrace();
 		} 
 
+		//Compare todays  date with departure date 
 
-		if(date1.compareTo(date)>0)
+		if(date1.compareTo(date)>0 && date1.compareTo(date2)>=0)
 		{
 			return true;
 		}
@@ -158,10 +166,14 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		ScheduledFlight sFlight=optional.orElseThrow(()->new FlightNotFoundException("No Scheduled Flight with schedule ID : "+scheduledFlightId));
 
 
+		//Checking if passengers are already booked the flight or not 
+
 		if(sFlight.getAvailableSeats()<sFlight.getFlight().getSeatCapacity())
 		{
 			throw new FlightNotFoundException("Unable to modify ! Pasengers are already booked the flight");
 		}
+
+		//Flight details can be modified only in flight services
 
 		Flight f=sFlight.getFlight();
 		Flight f1=scheduledFlight.getFlight();
@@ -170,6 +182,8 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		{
 			throw new FlightExceptions("Flight details cannot be modified from this location, can only modified from flight services");
 		}
+
+		//While modifiying Id cannot be modified
 
 		if(!(scheduledFlightId.compareTo(scheduledFlight.getScheduleFlightId())==0))
 		{
@@ -232,6 +246,12 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		// TODO Auto-generated method stub
 		Optional<ScheduledFlight> optional=scheduleFilghtDao.findById(scheduleFlightId);
 		ScheduledFlight sFlight=optional.orElseThrow(()->new FlightNotFoundException("No Scheduled Flight with schedule ID : "+scheduleFlightId));
+
+		if(sFlight.getAvailableSeats()<sFlight.getFlight().getSeatCapacity())
+		{
+			throw new FlightNotFoundException("Unable to delete! Pasengers are already booked the flight");
+		}
+
 		scheduleFilghtDao.deleteById(scheduleFlightId);
 
 	}
@@ -246,7 +266,7 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		// TODO Auto-generated method stub
 
 		//validating date 
-		Pattern p1=Pattern.compile("[0-9][1-9]-[0-9][0-9]-[2-9][0-9][0-9][0-9]");
+		Pattern p1=Pattern.compile("[0-9][0-9]-[0-9][0-9]-[2-9][0-9][0-9][0-9]");
 		if(!(p1.matcher(deptDate).find()))
 		{
 			throw new scheduleEntityExceptions("Date Format is Strict must be MM-DD-YYYY");	
@@ -272,6 +292,7 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 
 
 	//validating all the attributes of schedule and Flight Entity
+
 	@Override
 	public boolean validate(ScheduledFlight scheduledFlight) {
 		// TODO Auto-generated method stub
@@ -279,8 +300,8 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		Flight flight=scheduledFlight.getFlight();
 		System.out.println(flight.getFlightNumber());
 		Schedule schedule=scheduledFlight.getSchedule();
-		Pattern p=Pattern.compile("[0-9][1-9]:[0-9][0-9]");
-		Pattern p1=Pattern.compile("[0-9][1-9]-[0-9][0-9]-[2-9][0-9][0-9][0-9]");
+		Pattern p=Pattern.compile("[0-9][0-9]:[0-9][0-9]");
+		Pattern p1=Pattern.compile("[0-9][0-9]-[0-9][0-9]-[2-9][0-9][0-9][0-9]");
 		SimpleDateFormat df=new SimpleDateFormat("MM-dd-yyyy");
 		Date date=new Date();
 
@@ -301,7 +322,7 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		{
 			throw new scheduleEntityExceptions("Date Format is Strict must be MM-DD-YYYY");
 		}
-		else if(schedule.getDstnAirport()==schedule.getSrcAirport())
+		else if(schedule.getDstnAirport().equals(schedule.getSrcAirport()))
 		{
 			throw new scheduleEntityExceptions("Src and Destination can not be same");
 		}
@@ -309,9 +330,9 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		{
 			throw new FlightExceptions("Flight Number must be 555000 to 555999");
 		}
-		else if(!isItScheduled(scheduledFlight.getSchedule().getDeptDate()))
+		else if(!isItScheduled(scheduledFlight.getSchedule().getDeptDate(),scheduledFlight.getSchedule().getArrDate()))
 		{
-			throw new FlightNotFoundException("Flight can not be scheduled on this date");
+			throw new FlightNotFoundException("Flight can not be scheduled on this date and arrival date must be before the departure day");
 		}
 		else
 		{

@@ -62,8 +62,9 @@ public class FlightController {
 			flight1.setSeatCapacity(flight.getSeatCapacity());
 			flight1.setCarrierName(flight.getCarrierName());
 			flight1.setFlightModel(flight.getFlightModel());
-			flightService.deleteFlight(flightNumber);
+			
 			flightService.validateFlight(flight1);
+			flightService.deleteFlight(flightNumber);
 			Flight flight2=flightService.addFlight(flight1);
 			log.info("Modified a flight");
 			return  new ResponseEntity<Flight>(flight2,HttpStatus.OK);

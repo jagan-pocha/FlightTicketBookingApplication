@@ -46,6 +46,7 @@ public class ScheduledFlightController {
 	
 	
 	//Method to schedule the Flight
+	
 	@ApiOperation(value = "Scheduling a Flight")
 	@PostMapping(value="/addScheduledFlight")
 	public ResponseEntity<ScheduledFlight> addScheduledFlight(@Valid @RequestBody ScheduledFlight scheduledFlight)
@@ -59,6 +60,7 @@ public class ScheduledFlightController {
 	
 	
 	// mathod to view all scheduled Flights
+	
 	@ApiOperation(value = "To View all Scheduled Flights")
 	@GetMapping(value="/viewAllScheduledFlights")
 	public ResponseEntity<List<ScheduledFlight>> viewAllScheduledFlights()
@@ -71,6 +73,7 @@ public class ScheduledFlightController {
 	
 	
 	//method to view the  scheduled Flight using scheduled Id
+	
 	@ApiOperation(value = "To view a Scheduled Flight")
 	@GetMapping(value="/viewScheduledFlight/{scheduleFlightId}")
 	public ResponseEntity<ScheduledFlight> viewScheduledFlight(@PathVariable BigInteger scheduleFlightId)
@@ -84,6 +87,7 @@ public class ScheduledFlightController {
 	
 	
 	//method to modify the scheduled flight
+	
 	@ApiOperation(value = "modify a Scheduled a Flight")
 	@PutMapping(value="/modifyScheduledFlight/{scheduleFlightId}")
 	public ResponseEntity<ScheduledFlight> modifycheduledFlight(@Valid @RequestBody ScheduledFlight scheduledFlight,@PathVariable BigInteger scheduleFlightId)
