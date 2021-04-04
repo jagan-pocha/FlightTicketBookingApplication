@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +63,7 @@ public class UsersServiceImpl implements IUsersService{
 	}
 
 	@Override
+//	@Transactional
 	public Users updateUser(Users newUser,BigInteger userId) {
 		// TODO Auto-generated method stub
 		Optional<Users> optional=usersDao.findById(userId);
@@ -71,10 +74,23 @@ public class UsersServiceImpl implements IUsersService{
 		{
 			throw new UserNotFoundException("User type can not be mpdified");
 		}
-		if(validateAttributes(newUser))
+		
+//		if(validateAttributes(newUser))
+//		{
+//		usersDao.deleteById(userId);
+//		return newUser;
+//		}
+//		else
+//		{
+//			return null;
+//		}
+		
+		
+		if(optional.isPresent())
 		{
-		usersDao.deleteById(userId);
-		return newUser;
+			user4.setPassword(newUser.getPassword());
+			usersDao.save(user4);
+			return user4;
 		}
 		else
 		{

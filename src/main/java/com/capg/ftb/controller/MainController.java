@@ -59,7 +59,7 @@ public class MainController {
 
 		Users user2=userService.updateUser(newUser,userId);
 		log.info("Updated User ");
-		return new ResponseEntity<Users>(userService.addUser(user2),HttpStatus.OK);
+		return new ResponseEntity<Users>(user2,HttpStatus.OK);
 	}
 	
 	@GetMapping("/viewUser/{userId}")

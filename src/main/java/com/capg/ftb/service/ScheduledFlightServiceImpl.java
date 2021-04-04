@@ -60,13 +60,13 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		{
 			//Condition to check source airport is available or not 
 
-			Optional<Airport> optional=airportDao.findById(scheduledFlight.getSchedule().getSrcAirport());
-			Airport airport=optional.orElseThrow(() ->new AirportNotFoundException("Source Airport Not Existed with the Code: "+scheduledFlight.getSchedule().getSrcAirport()));
-
-			//Condition to check destination airport is available or not 
-
-			Optional<Airport> optional1=airportDao.findById(scheduledFlight.getSchedule().getDstnAirport());
-			Airport airport1=optional1.orElseThrow(()->new AirportNotFoundException("Destination Airport Not Existed with the Code: "+scheduledFlight.getSchedule().getDstnAirport()));
+//			Optional<Airport> optional=airportDao.findById(scheduledFlight.getSchedule().getSrcAirport());
+//			Airport airport=optional.orElseThrow(() ->new AirportNotFoundException("Source Airport Not Existed with the Code: "+scheduledFlight.getSchedule().getSrcAirport()));
+//
+//			//Condition to check destination airport is available or not 
+//
+//			Optional<Airport> optional1=airportDao.findById(scheduledFlight.getSchedule().getDstnAirport());
+//			Airport airport1=optional1.orElseThrow(()->new AirportNotFoundException("Destination Airport Not Existed with the Code: "+scheduledFlight.getSchedule().getDstnAirport()));
 
 			//Condition to check seating capacity 
 
@@ -76,33 +76,33 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 			}
 			else
 			{
-				List<ScheduledFlight> list=scheduleFilghtDao.findAll();
-				for(int i=0;i<list.size();i++)
-				{
-
-
-					ScheduledFlight sdFlight=list.get(i);
-
-					//Validating scheduling Flight Id
-
-					if(sdFlight.getScheduleFlightId().compareTo(scheduledFlight.getScheduleFlightId())==0)
-					{
-						throw new RecordAlreadyPresentException("Scheduled Flight alredy existed with given scheduleFlight id");
-					}
-				}
-				List<Flight> fList=flightDao.findAll();
-				for(int i=0;i<fList.size();i++)
-				{
-					Flight flight=fList.get(0);
-
-					// validating Flight Number
-
-					if(flight.getFlightNumber().compareTo(scheduledFlight.getFlight().getFlightNumber())==0)
-					{
-						throw new RecordAlreadyPresentException("Flight with given flight number is already existed, select other flight number");
-
-					}
-				}
+//				List<ScheduledFlight> list=scheduleFilghtDao.findAll();
+//				for(int i=0;i<list.size();i++)
+//				{
+//
+//
+//					ScheduledFlight sdFlight=list.get(i);
+//
+//					//Validating scheduling Flight Id
+//
+//					if(sdFlight.getScheduleFlightId().compareTo(scheduledFlight.getScheduleFlightId())==0)
+//					{
+//						throw new RecordAlreadyPresentException("Scheduled Flight alredy existed with given scheduleFlight id");
+//					}
+//				}
+//				List<Flight> fList=flightDao.findAll();
+//				for(int i=0;i<fList.size();i++)
+//				{
+//					Flight flight=fList.get(0);
+//
+//					// validating Flight Number
+//
+//					if(flight.getFlightNumber().compareTo(scheduledFlight.getFlight().getFlightNumber())==0)
+//					{
+//						throw new RecordAlreadyPresentException("Flight with given flight number is already existed, select other flight number");
+//
+//					}
+//				}
 
 
 
@@ -124,7 +124,7 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 
 	public boolean isItScheduled(String deptDate,String arrDate)
 	{
-		SimpleDateFormat df=new SimpleDateFormat("MM-dd-yyyy");
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		Date date1=null;
 		Date date2=null;
 		Date date = new Date();   
@@ -199,11 +199,10 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 			//validate the modifying Scheduling details
 			validate(scheduledFlight);
 
-			//remove the existed table before updating
-			removeScheduledFlight(scheduledFlightId); 
+			
 
 			//save the modified table
-			ScheduledFlight sFlight1=addScheduledFlight(scheduledFlight);
+			ScheduledFlight sFlight1=scheduleFilghtDao.save(scheduledFlight);
 			return sFlight1;
 		}
 	}
@@ -217,7 +216,14 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 	public List<ScheduledFlight> viewAllScheduledFlights() {
 		// TODO Auto-generated method stub
 		List<ScheduledFlight> allSFlights=scheduleFilghtDao.findAll();
+		if(allSFlights.isEmpty())
+		{
+			throw new FlightNotFoundException("Be the first to schedule the flight");
+		}
+		else
+		{
 		return allSFlights;
+		}
 	}
 
 
@@ -266,10 +272,12 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		// TODO Auto-generated method stub
 
 		//validating date 
-		Pattern p1=Pattern.compile("[0-9][0-9]-[0-9][0-9]-[2-9][0-9][0-9][0-9]");
+		
+		
+		Pattern p1=Pattern.compile("[2-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]");
 		if(!(p1.matcher(deptDate).find()))
 		{
-			throw new scheduleEntityExceptions("Date Format is Strict must be MM-DD-YYYY");	
+			throw new scheduleEntityExceptions("Date Format is Strict must be YYYY-MM-DD");	
 		}
 		else
 		{
@@ -284,7 +292,15 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 					list1.add(sFlight);
 				}
 			}
+			
+			if(list1.isEmpty())
+			{
+				throw new FlightNotFoundException("No Scheduled Flights available");
+			}
+			else
+			{
 			return list1;
+			}
 		}
 	}
 
@@ -301,9 +317,19 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		System.out.println(flight.getFlightNumber());
 		Schedule schedule=scheduledFlight.getSchedule();
 		Pattern p=Pattern.compile("[0-9][0-9]:[0-9][0-9]");
-		Pattern p1=Pattern.compile("[0-9][0-9]-[0-9][0-9]-[2-9][0-9][0-9][0-9]");
-		SimpleDateFormat df=new SimpleDateFormat("MM-dd-yyyy");
+		Pattern p1=Pattern.compile("[2-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]");
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		Date date=new Date();
+		
+		
+		Optional<Airport> optional=airportDao.findById(scheduledFlight.getSchedule().getSrcAirport());
+		Airport airport=optional.orElseThrow(() ->new AirportNotFoundException("Source Airport Not Existed with the Code: "+scheduledFlight.getSchedule().getSrcAirport()));
+
+		//Condition to check destination airport is available or not 
+
+		Optional<Airport> optional1=airportDao.findById(scheduledFlight.getSchedule().getDstnAirport());
+		Airport airport1=optional1.orElseThrow(()->new AirportNotFoundException("Destination Airport Not Existed with the Code: "+scheduledFlight.getSchedule().getDstnAirport()));
+
 
 
 		if(flight.getCarrierName().length()<3 && flight.getFlightModel().length()<3)
@@ -320,16 +346,16 @@ public class ScheduledFlightServiceImpl implements IScheduledFlightService{
 		}
 		else if(!(p1.matcher(schedule.getDeptDate()).find()) && !(p1.matcher(schedule.getArrDate()).find())) 
 		{
-			throw new scheduleEntityExceptions("Date Format is Strict must be MM-DD-YYYY");
+			throw new scheduleEntityExceptions("Date Format is Strict must be YYYY-MM-dd");
 		}
 		else if(schedule.getDstnAirport().equals(schedule.getSrcAirport()))
 		{
 			throw new scheduleEntityExceptions("Src and Destination can not be same");
 		}
-		else if(flight.getFlightNumber().compareTo(new BigInteger("555000"))<0 || flight.getFlightNumber().compareTo(new BigInteger("555999"))>0)
-		{
-			throw new FlightExceptions("Flight Number must be 555000 to 555999");
-		}
+//		else if(flight.getFlightNumber().compareTo(new BigInteger("555000"))<0 || flight.getFlightNumber().compareTo(new BigInteger("555999"))>0)
+//		{
+//			throw new FlightExceptions("Flight Number must be 555000 to 555999");
+//		}
 		else if(!isItScheduled(scheduledFlight.getSchedule().getDeptDate(),scheduledFlight.getSchedule().getArrDate()))
 		{
 			throw new FlightNotFoundException("Flight can not be scheduled on this date and arrival date must be before the departure day");

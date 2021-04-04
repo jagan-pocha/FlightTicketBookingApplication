@@ -44,13 +44,11 @@ public class Schedule {
 	private String dstnAirport;
 
 	@Column(name = "departure_date")
-	@Pattern(regexp="[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]",message="Format mm-dd-yyyy")
-	@ApiModelProperty(notes = "should be in the given fotmat mm-dd-yyyy",example="03-12-2021", required = true, position = 4)
+	@ApiModelProperty(notes = "should be in the given fotmat yyyy-MM-dd", required = true, position = 4)
 	private String deptDate;
 
 	@Column(name = "arrival_date")
-	@Pattern(regexp="[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]",message="Format mm-dd-yyyy")
-	@ApiModelProperty(notes = "should be in the given fotmat mm-dd-yyyy",example="03-12-2021", required = true, position = 5)
+	@ApiModelProperty(notes = "should be in the given fotmat yyyy-MM-dd", required = true, position = 5)
 	private String arrDate;
 	
 	@Column(name = "arrival_time")

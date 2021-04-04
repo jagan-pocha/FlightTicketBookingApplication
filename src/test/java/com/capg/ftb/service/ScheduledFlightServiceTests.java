@@ -52,7 +52,7 @@ public class ScheduledFlightServiceTests {
 		
 		Flight flight=new Flight(bI,"GoJet Airlines", "GJ200", 60);
 		
-		Schedule schedule=new Schedule(new BigInteger("020"),"testA1","testA2","03-12-2021","03-13-2021","10:00","12:00");
+		Schedule schedule=new Schedule(new BigInteger("020"),"testA1","testA2","03-17-2021","03-17-2021","10:00","12:00");
 		
 		ScheduledFlight sFlight=new ScheduledFlight(new BigInteger("999030"),flight,60,schedule,500.0);
      	ScheduledFlight r2=scheduleFService.addScheduledFlight(sFlight);
@@ -73,7 +73,7 @@ public class ScheduledFlightServiceTests {
 		
 		Flight flight=new Flight(bI,"GoJet Airlines", "GJ200", 60);
 		
-		Schedule schedule=new Schedule(new BigInteger("020"),"testA1","testA2","03-12-2021","03-13-2021","10:00","12:00");
+		Schedule schedule=new Schedule(new BigInteger("020"),"testA1","testA2","03-17-2021","03-17-2021","10:00","12:00");
 		
 		ScheduledFlight sFlight=new ScheduledFlight(new BigInteger("999031"),flight,60,schedule,500.0);
 		ScheduledFlight r2=scheduleFService.addScheduledFlight(sFlight);
@@ -104,14 +104,14 @@ public class ScheduledFlightServiceTests {
 		
 		Flight flight=new Flight(bI,"GoJet Airlines", "GJ200", 60);
 		
-		Schedule schedule=new Schedule(new BigInteger("020"),"testA1","testA2","03-12-2021","03-13-2021","10:00","12:00");
+		Schedule schedule=new Schedule(new BigInteger("020"),"testA1","testA2","03-17-2021","03-17-2021","10:00","12:00");
 		
 		ScheduledFlight sFlight=new ScheduledFlight(new BigInteger("999032"),flight,60,schedule,500.0);
 		ScheduledFlight r2=scheduleFService.addScheduledFlight(sFlight);
-		r2.setAvailableSeats(100);
-		r2.getFlight().setSeatCapacity(100);;
+		r2.setAvailableSeats(60);
+		r2.getFlight().setSeatCapacity(60);;
 		ScheduledFlight sFlight1=scheduleFService.modifyScheduledFlight(r2,new BigInteger("999032"));
-		assertEquals(100,sFlight1.getAvailableSeats());
+		assertEquals(60,sFlight1.getAvailableSeats());
 	}
 	
 	
@@ -129,7 +129,7 @@ public class ScheduledFlightServiceTests {
 		
 		Flight flight=new Flight(bI,"GoJet Airlines", "GJ200", 60);
 		
-		Schedule schedule=new Schedule(new BigInteger("020"),"testA1","testA2","03-12-2021","03-13-2021","10:00","12:00");
+		Schedule schedule=new Schedule(new BigInteger("020"),"testA1","testA2","03-17-2021","03-17-2021","10:00","12:00");
 		
 		ScheduledFlight sFlight=new ScheduledFlight(new BigInteger("999034"),flight,60,schedule,500.0);
 		ScheduledFlight r2=scheduleFService.addScheduledFlight(sFlight);

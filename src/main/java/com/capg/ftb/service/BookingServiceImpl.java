@@ -50,7 +50,7 @@ public class BookingServiceImpl implements IFlightBookingService{
 	private ScheduledFlightServiceImpl scheduledFService;
 
 
-	SimpleDateFormat df=new SimpleDateFormat("MM-dd-yyyy");
+	SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 	Date date=new Date();
 	
 	@Override
@@ -221,7 +221,7 @@ public class BookingServiceImpl implements IFlightBookingService{
 		ScheduledFlight sFlight=optional.orElseThrow(()->new FlightNotFoundException("No Scheduled Flight with schedule ID : "+scheduledFlightId));
 		sFlight.setAvailableSeats(sFlight.getAvailableSeats()-passengersCount);
 		ScheduledFlight sFlight2=sFlight;
-		scheduleFilghtDao.deleteById(sFlight.getScheduleFlightId());
+//		scheduleFilghtDao.deleteById(sFlight.getScheduleFlightId());
 		scheduleFilghtDao.save(sFlight2);
 
 	}
@@ -233,7 +233,7 @@ public class BookingServiceImpl implements IFlightBookingService{
 		ScheduledFlight sFlight=optional.orElseThrow(()->new FlightNotFoundException("No Scheduled Flight with schedule ID : "+scheduledFlightId));
 		sFlight.setAvailableSeats(sFlight.getAvailableSeats()+passengersCount);
 		ScheduledFlight sFlight2=sFlight;
-		scheduleFilghtDao.deleteById(sFlight.getScheduleFlightId());
+//		scheduleFilghtDao.deleteById(sFlight.getScheduleFlightId());
 		scheduleFilghtDao.save(sFlight2);
 
 	}

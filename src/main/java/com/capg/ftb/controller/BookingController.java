@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,8 @@ import io.swagger.annotations.Api;
 @Api
 public class BookingController {
 	
+	private static final Logger log =LogManager.getLogger(BookingController.class);
+	
 	@Autowired
 	private BookingServiceImpl bookingService;
 	
@@ -38,6 +42,7 @@ public class BookingController {
 	public ResponseEntity<Booking> addBooking( @RequestBody Booking booking)
 	{
 		Booking booking1=bookingService.addBooking(booking);
+		log.info("Booking bas been made");
 		return new ResponseEntity<Booking>(booking1,HttpStatus.CREATED);
 	}
 	
@@ -48,7 +53,7 @@ public class BookingController {
 	{
 		Booking booking1= bookingService.modifyBooking(booking, bookingId);
 		
-				
+		log.info("Modified a booking");
 		return  new ResponseEntity<Booking>(booking1,HttpStatus.OK);
 	}
 	
@@ -56,6 +61,7 @@ public class BookingController {
 	public ResponseEntity<Booking> searchBookingByID(@PathVariable("id") BigInteger bookingId) {
 
 		Booking booking1=bookingService.viewBooking(bookingId);
+		log.info("Viewed the booking details");
 		return new ResponseEntity<Booking>(booking1,HttpStatus.OK);
 	}
 	
@@ -63,6 +69,7 @@ public class BookingController {
 	public ResponseEntity<List<Booking>> readAllBookings()
 	{
 		List<Booking> allBookings=bookingService.viewAllBookings();
+		log.info("Viewed booking made by now ");
 		return new ResponseEntity<List<Booking>>(allBookings,HttpStatus.OK);
 	}
 	
@@ -70,6 +77,7 @@ public class BookingController {
 	public ResponseEntity<Booking> deleteBookings(@PathVariable("id") BigInteger bookingId) {
 
 		Booking booking1=bookingService.deleteBooking(bookingId);
+		log.info("Deleted a booking");
 		return new ResponseEntity<Booking>(booking1,HttpStatus.OK);
 	}
 	

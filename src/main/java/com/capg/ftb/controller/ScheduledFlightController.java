@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +35,7 @@ import org.apache.logging.log4j.Logger;
 @RequestMapping(value="/ftb")
 @Validated
 @Api
+@CrossOrigin
 public class ScheduledFlightController {
 
 	
@@ -105,13 +108,24 @@ public class ScheduledFlightController {
 	
 	@ApiOperation(value = "Search for a Scheduled Flight")
 	@GetMapping(value="/searchScheduledFlight/{srcAirport}/{dstnAirport}/{deptDate}")
-	
 	public ResponseEntity<List<ScheduledFlight>> searchScheduledFlight(@PathVariable String srcAirport,@PathVariable String dstnAirport,@PathVariable String deptDate)
 	{
 		List<ScheduledFlight> sFlights=scheduledFService.searchScheduledFlight(srcAirport, dstnAirport,deptDate);
 		log.info("Searched for a  Scheduled Flight");
 		return new ResponseEntity<List<ScheduledFlight>>(sFlights,HttpStatus.OK);
 	}
+	
+	
+	
+	@ApiOperation(value = "Remove w a Scheduled Flight")
+	@DeleteMapping(value="/removeScheduledFlight/{scheduleFlightId}")
+	public ResponseEntity<String> removeScheduledFlight(@PathVariable BigInteger scheduleFlightId)
+	{
+		scheduledFService.removeScheduledFlight(scheduleFlightId);
+		log.info("removed a Scheduled  Flight");
+		return new ResponseEntity<String>("Deleted Successfully",HttpStatus.OK);
+	}
+	
 	
 	
 }
