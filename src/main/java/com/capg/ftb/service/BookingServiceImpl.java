@@ -102,6 +102,10 @@ public class BookingServiceImpl implements IFlightBookingService{
 	public Booking modifyBooking(Booking booking,BigInteger bookingId)
 	{
 		Booking booking1=getById(bookingId);
+//		Optional<ScheduledFlight> optional1=scheduleFilghtDao.findById(booking.getScheduledFlightId());
+//		ScheduledFlight scheduledFlight=(ScheduledFlight)optional1.orElseThrow(() ->new FlightNotFoundException("Scheduled Flight Not Found with the given ID : "+booking1.getScheduledFlightId()));
+//
+//	
 		if(booking1==null)
 		{
 			return null;
@@ -114,8 +118,10 @@ public class BookingServiceImpl implements IFlightBookingService{
 			}
 			if(validateAttributes(booking))
 			{
-				bookingDao.deleteById(bookingId);
-				Booking booking2=addBooking(booking);
+				
+//				modifyScheduledFlightAdd(scheduledFlight.getScheduleFlightId(),booking1.getNoOfPassangers());
+		//		bookingDao.deleteById(bookingId);
+				Booking booking2=bookingDao.save(booking);
 				return booking2;
 			}
 			else
@@ -221,7 +227,7 @@ public class BookingServiceImpl implements IFlightBookingService{
 		ScheduledFlight sFlight=optional.orElseThrow(()->new FlightNotFoundException("No Scheduled Flight with schedule ID : "+scheduledFlightId));
 		sFlight.setAvailableSeats(sFlight.getAvailableSeats()-passengersCount);
 		ScheduledFlight sFlight2=sFlight;
-//		scheduleFilghtDao.deleteById(sFlight.getScheduleFlightId());
+		//scheduleFilghtDao.deleteById(sFlight.getScheduleFlightId());
 		scheduleFilghtDao.save(sFlight2);
 
 	}
@@ -233,7 +239,7 @@ public class BookingServiceImpl implements IFlightBookingService{
 		ScheduledFlight sFlight=optional.orElseThrow(()->new FlightNotFoundException("No Scheduled Flight with schedule ID : "+scheduledFlightId));
 		sFlight.setAvailableSeats(sFlight.getAvailableSeats()+passengersCount);
 		ScheduledFlight sFlight2=sFlight;
-//		scheduleFilghtDao.deleteById(sFlight.getScheduleFlightId());
+		//scheduleFilghtDao.deleteById(sFlight.getScheduleFlightId());
 		scheduleFilghtDao.save(sFlight2);
 
 	}
