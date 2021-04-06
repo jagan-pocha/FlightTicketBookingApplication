@@ -103,5 +103,13 @@ public class BookingController {
 		return new ResponseEntity<List<ScheduledFlight>>(sFlights,HttpStatus.OK);
 	}
 
+	
+	@GetMapping("/getBookingsByUserName/{userName}")
+	public ResponseEntity<List<Booking>> getBookingsByUserName(@PathVariable("userName") String userName) {
+
+		List<Booking> allBookings=bookingService.getByUserName(userName);
+		log.info("Deleted a booking");
+		return new ResponseEntity<List<Booking>>(allBookings,HttpStatus.OK);
+	}
 
 }

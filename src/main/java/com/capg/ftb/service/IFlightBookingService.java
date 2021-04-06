@@ -26,7 +26,10 @@ public interface IFlightBookingService {
 	
 	public Booking getById(BigInteger bookingId);
 	
+	
 	public List<ScheduledFlight> searchForScheduledFlight(String srcAirport,String dstnAirport,String deptDate);
 
 	void modifyScheduledFlight(BigInteger scheduledFlightId, int passengersCount);
+
+	
 }

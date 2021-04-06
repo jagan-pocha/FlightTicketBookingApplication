@@ -271,4 +271,16 @@ public class BookingServiceImpl implements IFlightBookingService{
 	}
 
 
+
+	public List<Booking> getByUserName(String userName) {
+		// TODO Auto-generated method stub
+		List<Booking> bookingList=(List<Booking>) bookingDao.getByUserName(userName);
+		if(bookingList.isEmpty())
+		{
+			throw new FlightNotFoundException("No bookings Done by you");
+		}
+		return bookingList;
+	}
+
+
 }
