@@ -42,15 +42,15 @@ public class FlightServiceImpl implements IFlightService {
 		
 		if(validateFlight(flight))
 		{
-		List<Flight> list=flightDao.findAll();
-		for(int i=0;i<list.size();i++)
-		{
-			Flight f=list.get(i);
-			if(f.getFlightNumber().compareTo(flight.getFlightNumber())==0)
-			{
-				throw new FlightExceptions("Flight with given Number already existed");
-			}
-		}
+//		List<Flight> list=flightDao.findAll();
+//		for(int i=0;i<list.size();i++)
+//		{
+//			Flight f=list.get(i);
+//			if(f.getFlightNumber().compareTo(flight.getFlightNumber())==0)
+//			{
+//				throw new FlightExceptions("Flight with given Number already existed");
+//			}
+//		}
 		Flight flight1=flightDao.save(flight);
 		
 		
@@ -143,10 +143,6 @@ public class FlightServiceImpl implements IFlightService {
 		else if(flight.getCarrierName().length()<3 || flight.getFlightModel().length()<3)
 		{
 			throw new FlightExceptions("Carrier Name and Flight model cannot be less than 3 characters");
-		}
-		else if(flight.getFlightNumber().compareTo(new BigInteger("555000"))<0 || flight.getFlightNumber().compareTo(new BigInteger("555999"))>0)
-		{
-			throw new FlightExceptions("Flight Number must be 555000 to 555999");
 		}
 		else
 		{

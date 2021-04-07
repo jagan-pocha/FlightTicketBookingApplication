@@ -36,6 +36,7 @@ import org.apache.logging.log4j.Logger;
 @RequestMapping(value="/ftb")
 @Validated
 @Api(value = "Airport Controller")
+@CrossOrigin
 public class AirportController {
 
 
