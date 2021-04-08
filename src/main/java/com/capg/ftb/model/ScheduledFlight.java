@@ -40,7 +40,7 @@ public class ScheduledFlight {
 	@ApiModelProperty(notes = "Available seats to book", required = false, position=3)
 	private Integer availableSeats;
 
-	@NotNull
+
 	@OneToOne(targetEntity=Schedule.class,cascade = CascadeType.ALL)
 	@JoinColumn(referencedColumnName="scheduleId")
 	@ApiModelProperty(notes = "OnetoOne relation between Schedule", required = false, position=4)

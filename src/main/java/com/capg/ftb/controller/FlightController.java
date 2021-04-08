@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.capg.ftb.dao.FlightDAO;
 import com.capg.ftb.model.Flight;
 import com.capg.ftb.service.IFlightService;
 
@@ -41,7 +42,8 @@ public class FlightController {
 	@Autowired
 	private IFlightService flightService;
 	
-	
+	@Autowired
+	private FlightDAO flightDao;
 	
 	// Adds a new flight which can be scheduled
 	@PostMapping(value="/addFlight")
@@ -65,9 +67,9 @@ public class FlightController {
 			flight1.setCarrierName(flight.getCarrierName());
 			flight1.setFlightModel(flight.getFlightModel());
 			
-			flightService.validateFlight(flight1);
-			flightService.deleteFlight(flightNumber);
-			Flight flight2=flightService.addFlight(flight1);
+//			flightService.validateFlight(flight1);
+//			flightService.deleteFlight(flightNumber);
+			Flight flight2=flightDao.save(flight1);
 			log.info("Modified a flight");
 			return  new ResponseEntity<Flight>(flight2,HttpStatus.OK);
 		}

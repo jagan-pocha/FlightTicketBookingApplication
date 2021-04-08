@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,7 @@ import io.swagger.annotations.Api;
 @RequestMapping(value="/ftb")
 @Validated
 @Api
+@CrossOrigin
 public class MainController {
 
 	private static final Logger log =LogManager.getLogger(MainController.class);

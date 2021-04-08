@@ -36,15 +36,15 @@ public class AuthenticationController {
 		
 		if(user.getPassword().equals(password))
 		{
-			str="welcome "+user.getUserType()+", "+userName;
+			str=user.getUserType().toLowerCase()+" "+userName;
 		}
 		else
 		{
-			str="Sorry, Invalid Credentials";
+			str="Invalid Credentials";
 		}
 		}else
 		{
-			str="user name not Existed";
+			str="User Name not Existed";
 		}
 		log.info("User "+userName+" logged in ");
 		return new ResponseEntity<String>(str,HttpStatus.OK);
