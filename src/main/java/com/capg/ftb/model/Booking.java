@@ -43,10 +43,10 @@ public class Booking {
 	@ApiModelProperty(notes = "Current date of Booking", required = false, position=3)
 	private LocalDate bookingDate;
 	
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	@JoinColumn(name="bookedById") 
-	@ApiModelProperty(notes = "List of Pasengers", required = false, position=4)
-	private List<Passenger> passengerList;
+	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@JoinColumn(referencedColumnName="pnrNumber") 
+	@ApiModelProperty(notes = "Pasenger", required = false, position=4)
+	private Passenger passengerList;
 	
 	@Column
 	@ApiModelProperty(notes = "Caluculated Automaticaly based on NoOfPasengers", required = false, position=5)
@@ -82,10 +82,10 @@ public class Booking {
 		this.bookingDate = bookingDate;
 	}
 	
-	public List<Passenger> getPassengerList() {
+	public Passenger getPassengerList() {
 		return passengerList;
 	}
-	public void setPassengerList(List<Passenger> passengerList) {
+	public void setPassengerList(Passenger passengerList) {
 		this.passengerList = passengerList;
 	}
 	
@@ -107,7 +107,7 @@ public class Booking {
 		this.noOfPassangers = noOfPassangers;
 	}
 	
-	public Booking(BigInteger bookingId,String userName,LocalDate bookingDate,List <Passenger> passengerList,double ticketCost,BigInteger scheduledFlightId,int noOfPassangers) {
+	public Booking(BigInteger bookingId,String userName,LocalDate bookingDate,Passenger passengerList,double ticketCost,BigInteger scheduledFlightId,int noOfPassangers) {
 		super();
 		this.bookingId=bookingId;
 		this.userName=userName;

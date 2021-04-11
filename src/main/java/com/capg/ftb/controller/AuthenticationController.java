@@ -5,12 +5,14 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.ftb.dao.IUsersDAO;
+import com.capg.ftb.exception.UserNotFoundException;
 import com.capg.ftb.model.Users;
 
 import io.swagger.annotations.Api;
@@ -18,6 +20,7 @@ import io.swagger.annotations.Api;
 @RestController
 @Api
 @RequestMapping(value="/ftb")
+@CrossOrigin
 public class AuthenticationController {
 	
 	private static final Logger log =LogManager.getLogger(AirportController.class);
@@ -26,7 +29,7 @@ public class AuthenticationController {
 	private IUsersDAO userDao;
 	
 	@GetMapping(value="/login/{userName}/{password}")
-	public ResponseEntity<String> login(@PathVariable String userName,@PathVariable String password)
+	public ResponseEntity<Users> login(@PathVariable String userName,@PathVariable String password)
 	{
 		Users user=userDao.findByUserName(userName);
 
@@ -40,14 +43,15 @@ public class AuthenticationController {
 		}
 		else
 		{
-			str="Invalid Credentials";
+			throw new UserNotFoundException("Invalid Credentials");
 		}
-		}else
+		}
+		else
 		{
-			str="User Name not Existed";
+			throw new UserNotFoundException("User Not Existed with given name");
 		}
 		log.info("User "+userName+" logged in ");
-		return new ResponseEntity<String>(str,HttpStatus.OK);
+		return new ResponseEntity<Users>(user,HttpStatus.OK);
 	}
 	
 	

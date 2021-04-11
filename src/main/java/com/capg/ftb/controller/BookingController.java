@@ -31,6 +31,7 @@ import io.swagger.annotations.Api;
 @RestController
 @RequestMapping(value="/ftb")
 @Api
+@CrossOrigin
 public class BookingController {
 	
 	private static final Logger log =LogManager.getLogger(BookingController.class);

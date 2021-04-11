@@ -69,15 +69,11 @@ public class BookingServiceImpl implements IFlightBookingService{
 			{
 				throw new SeatsNotAvailableException("Passengers are more than the available seats");
 			}
-			else if(!(booking.getNoOfPassangers()==booking.getPassengerList().size()))
-			{
-				throw new SeatsNotAvailableException("Passengers List is more than no of passengers");
-			}
 			else
 			{
 				LocalDate date = LocalDate.now();
 				booking.setBookingDate(date);
-
+                booking.setNoOfPassangers(1);
 			
 				booking.setTicketCost(scheduledFlight.getCostPerHead()*booking.getNoOfPassangers());
 
@@ -249,24 +245,24 @@ public class BookingServiceImpl implements IFlightBookingService{
 	{
 		HashSet<BigInteger> pUIN=new HashSet<BigInteger>();
 
-		List<Passenger> pList=booking.getPassengerList();
-		for(int i=0;i<pList.size();i++)
-		{
-			Passenger passenger=pList.get(i);
-			pUIN.add(passenger.getPassengerUIN());
-			if(passenger.getPassengerName().length()<3)
-			{
-				throw new BookingsExceptions("passenger Name must be 3 characters atleast");
-			}
-			else if(passenger.getPassengerUIN().compareTo(new BigInteger("100000000000"))<0 || passenger.getPassengerUIN().compareTo(new BigInteger("999999999999"))>0)
-			{
-				throw new BookingsExceptions("passenger UIN number should be 12 digits exactly");
-			}
-		}
-		if(pUIN.size()<booking.getNoOfPassangers())
-		{
-			throw new BookingsExceptions("passenger UIN numbers must be unique");
-		}
+//		Passenger pList=booking.getPassengerList();
+//		for(int i=0;i<pList.size();i++)
+//		{
+//			Passenger passenger=pList.get(i);
+//			pUIN.add(passenger.getPassengerUIN());
+//			if(passenger.getPassengerName().length()<3)
+//			{
+//				throw new BookingsExceptions("passenger Name must be 3 characters atleast");
+//			}
+//			else if(passenger.getPassengerUIN().compareTo(new BigInteger("100000000000"))<0 || passenger.getPassengerUIN().compareTo(new BigInteger("999999999999"))>0)
+//			{
+//				throw new BookingsExceptions("passenger UIN number should be 12 digits exactly");
+//			}
+//		}
+//		if(pUIN.size()<booking.getNoOfPassangers())
+//		{
+//			throw new BookingsExceptions("passenger UIN numbers must be unique");
+//		}
 		return true;
 	}
 
